@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+tensorflow
+numpy
+opencv-python
+crewai
+langchain-groq
+python-dotenv
