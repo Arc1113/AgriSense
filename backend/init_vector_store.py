@@ -42,8 +42,8 @@ def convert_text_to_markdown():
         output_dir = Path(__file__).parent / "Web_Scraping_for_Agrisense" / "rag_pipeline" / "processed" / "markdown_kb"
         
         # Skip if markdown files already exist
-        if output_dir.exists() and list(output_dir.glob('*.md')):
-            md_count = len(list(output_dir.glob('*.md')))
+        if output_dir.exists() and list(output_dir.rglob('*.md')):
+            md_count = len(list(output_dir.rglob('*.md')))
             logger.info(f"✅ Markdown KB already exists ({md_count} files)")
             return True
             
