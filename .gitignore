@@ -22,6 +22,7 @@ env/
 /backend/models/agrisense_models*
 /backend/models/figures/
 /backend/models/*.ipynb
+/backend/models/resnet50/
 
 # ChromaDB Vector Store
 vector_store/
