@@ -75,3 +75,35 @@ Your mobile app sends disease + confidence to:
 - If app is slow on first start: model/runtime caches warm up on first requests.
 - If `/health` fails after deploy: check App Service logs and verify `GROQ_API_KEY` is set.
 - If vector retrieval is empty after restart: ensure storage mount exists at `/app/vector_store`.
+
+## GitHub Actions (RAG-Agent-Only)
+
+This repo includes automated deployment for the **RAG-only backend** (small image) via:
+
+- [.github/workflows/rag-agent-deploy.yml](../.github/workflows/rag-agent-deploy.yml)
+
+### Scope
+
+- Builds only `backend/Dockerfile.deploy`
+- Deploys only the existing Azure Web App container for RAG agent
+- Does **not** deploy full ML/robotics backend stack
+
+### Required GitHub Secrets (Environment: `production`)
+
+- `AZURE_CLIENT_ID`
+- `AZURE_TENANT_ID`
+- `AZURE_SUBSCRIPTION_ID`
+- `GROQ_API_KEY`
+
+### Required GitHub Variables (Environment: `production`)
+
+- `AZURE_RESOURCE_GROUP` (e.g., `agrisense-rg`)
+- `AZURE_WEBAPP_NAME` (e.g., `agrisense-api-jytid2`)
+- `AZURE_ACR_NAME` (e.g., `agrisenseacrwxqtcm`)
+- `IMAGE_NAME` (e.g., `agrisense-rag`)
+
+### Trigger behavior
+
+- Auto deploy on push to `main` when RAG-backend files change
+- Manual deploy/rollback via `workflow_dispatch`
+- Image tags: `${{ github.sha }}` and `latest`

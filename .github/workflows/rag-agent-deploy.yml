@@ -1,0 +1,186 @@
+name: Deploy RAG Agent Backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/Dockerfile.deploy'
+      - 'backend/requirements-deploy.txt'
+      - 'backend/main.py'
+      - 'backend/rag_agent.py'
+      - 'backend/markdown_rag_pipeline.py'
+      - 'backend/vector_store_manager.py'
+      - 'backend/weather_service.py'
+      - 'backend/app/**'
+      - 'backend/.dockerignore'
+      - 'backend/.dockerignore.deploy'
+      - 'backend/azure.appsettings.example.env'
+      - '.github/workflows/rag-agent-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Choose deploy mode'
+        required: true
+        default: 'build-and-deploy'
+        type: choice
+        options:
+          - build-and-deploy
+          - rollback
+      rollback_tag:
+        description: 'Rollback image tag (required when mode=rollback)'
+        required: false
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: rag-agent-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_and_deploy:
+    if: github.event_name == 'push' || github.event.inputs.mode == 'build-and-deploy'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Resolve ACR login server
+        id: acr
+        run: |
+          ACR_LOGIN_SERVER=$(az acr show -n "${{ vars.AZURE_ACR_NAME }}" --query loginServer -o tsv)
+          echo "login_server=$ACR_LOGIN_SERVER" >> "$GITHUB_OUTPUT"
+
+      - name: Login to ACR
+        run: az acr login -n "${{ vars.AZURE_ACR_NAME }}"
+
+      - name: Build and push RAG image
+        env:
+          ACR_LOGIN_SERVER: ${{ steps.acr.outputs.login_server }}
+          IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -f backend/Dockerfile.deploy \
+            -t "$ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG" \
+            -t "$ACR_LOGIN_SERVER/$IMAGE_NAME:latest" \
+            backend
+          docker push "$ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG"
+          docker push "$ACR_LOGIN_SERVER/$IMAGE_NAME:latest"
+
+      - name: Configure Web App container
+        env:
+          ACR_LOGIN_SERVER: ${{ steps.acr.outputs.login_server }}
+          IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          ACR_USER=$(az acr credential show -n "${{ vars.AZURE_ACR_NAME }}" --query username -o tsv)
+          ACR_PASS=$(az acr credential show -n "${{ vars.AZURE_ACR_NAME }}" --query passwords[0].value -o tsv)
+          az webapp config container set \
+            --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
+            --name "${{ vars.AZURE_WEBAPP_NAME }}" \
+            --container-image-name "$ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG" \
+            --container-registry-url "https://$ACR_LOGIN_SERVER" \
+            --container-registry-user "$ACR_USER" \
+            --container-registry-password "$ACR_PASS"
+
+      - name: Apply RAG-only app settings
+        run: |
+          az webapp config appsettings set \
+            --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
+            --name "${{ vars.AZURE_WEBAPP_NAME }}" \
+            --settings \
+              WEBSITES_PORT=8000 \
+              DEPLOY_MODE=rag_only \
+              PYTHONUNBUFFERED=1 \
+              RAG_ENABLE_RERANKING=false \
+              RAG_EMBEDDINGS_PROVIDER=fastembed \
+              RAG_FASTEMBED_MODEL=BAAI/bge-small-en-v1.5 \
+              GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}
+
+      - name: Restart Web App
+        run: az webapp restart --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "${{ vars.AZURE_WEBAPP_NAME }}"
+
+      - name: Health check
+        env:
+          WEBAPP_NAME: ${{ vars.AZURE_WEBAPP_NAME }}
+        run: |
+          URL="https://$WEBAPP_NAME.azurewebsites.net/health"
+          for i in {1..24}; do
+            if curl -fsS --max-time 15 "$URL" > /dev/null; then
+              echo "Health check passed"
+              exit 0
+            fi
+            echo "Waiting for app startup... ($i/24)"
+            sleep 10
+          done
+          echo "Health check failed"
+          exit 1
+
+  rollback:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'rollback'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Validate rollback tag input
+        run: |
+          if [ -z "${{ github.event.inputs.rollback_tag }}" ]; then
+            echo "rollback_tag is required for rollback mode"
+            exit 1
+          fi
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Resolve ACR login server
+        id: acr
+        run: |
+          ACR_LOGIN_SERVER=$(az acr show -n "${{ vars.AZURE_ACR_NAME }}" --query loginServer -o tsv)
+          echo "login_server=$ACR_LOGIN_SERVER" >> "$GITHUB_OUTPUT"
+
+      - name: Point Web App to rollback image
+        env:
+          ACR_LOGIN_SERVER: ${{ steps.acr.outputs.login_server }}
+        run: |
+          ACR_USER=$(az acr credential show -n "${{ vars.AZURE_ACR_NAME }}" --query username -o tsv)
+          ACR_PASS=$(az acr credential show -n "${{ vars.AZURE_ACR_NAME }}" --query passwords[0].value -o tsv)
+          az webapp config container set \
+            --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
+            --name "${{ vars.AZURE_WEBAPP_NAME }}" \
+            --container-image-name "$ACR_LOGIN_SERVER/${{ vars.IMAGE_NAME }}:${{ github.event.inputs.rollback_tag }}" \
+            --container-registry-url "https://$ACR_LOGIN_SERVER" \
+            --container-registry-user "$ACR_USER" \
+            --container-registry-password "$ACR_PASS"
+
+      - name: Restart Web App
+        run: az webapp restart --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "${{ vars.AZURE_WEBAPP_NAME }}"
+
+      - name: Health check
+        env:
+          WEBAPP_NAME: ${{ vars.AZURE_WEBAPP_NAME }}
+        run: |
+          URL="https://$WEBAPP_NAME.azurewebsites.net/health"
+          for i in {1..24}; do
+            if curl -fsS --max-time 15 "$URL" > /dev/null; then
+              echo "Rollback health check passed"
+              exit 0
+            fi
+            echo "Waiting for app startup... ($i/24)"
+            sleep 10
+          done
+          echo "Rollback health check failed"
+          exit 1
