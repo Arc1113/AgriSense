@@ -30,15 +30,25 @@ COPY weather_service.py .
 COPY app ./app
 
 # Keep minimal KB fallback data (used if vector_store volume is empty)
+# Copy the markdown knowledge base — these files MUST be in the image for
+# the auto-rebuild to work on Azure (where the vector_store mount may be empty).
 COPY Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb ./Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb
-    # Optional fallback RAG JSON. Some workflows don't check this file into the repo
-    # so create an empty placeholder inside the image if it's not present in context.
-    RUN mkdir -p Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json \
-        && if [ -f Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/rag_documents.json ]; then \
-             echo "using provided rag_documents.json"; \
-           else \
-             echo "{}" > Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/rag_documents.json; \
-           fi
+
+# Verify KB files made it into the image (fail fast if .dockerignore blocked them)
+RUN kb_count=$(find Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb -name '*.md' 2>/dev/null | wc -l) \
+    && echo "📚 Markdown KB files in image: $kb_count" \
+    && if [ "$kb_count" -eq 0 ]; then \
+         echo "❌ FATAL: No .md files found in markdown_kb — check .dockerignore patterns" && exit 1; \
+       fi
+
+# Optional fallback RAG JSON. Some workflows don't check this file into the repo
+# so create an empty placeholder inside the image if it's not present in context.
+RUN mkdir -p Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json \
+    && if [ -f Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/rag_documents.json ]; then \
+         echo "using provided rag_documents.json"; \
+       else \
+         echo "{}" > Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/rag_documents.json; \
+       fi
 
 # Force RAG-only mode
 ENV DEPLOY_MODE=rag_only
