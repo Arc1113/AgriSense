@@ -97,38 +97,34 @@ def get_llm() -> LLM:
 
 # Global RAG pipeline instance (industry-standard Markdown-based)
 _rag_pipeline: Optional[MarkdownRAGPipeline] = None
-
-
 _rag_init_info: dict = {}  # Diagnostic info for debug endpoint
+_rag_init_lock = None  # Will be set below
+_rag_init_started = False
 
 
-def get_rag_pipeline() -> Optional[MarkdownRAGPipeline]:
+def _init_rag_sync():
     """
-    Get or initialize the industry-standard Markdown RAG pipeline.
+    Synchronous RAG pipeline initialization — runs in a background thread.
     
-    Pipeline: Markdown KB → Header-Aware Chunking → ChromaDB → Retrieve → Rerank
-    
-    Returns None if pipeline is not available.
+    This is the heavy lifting: loads KB, checks vector store, rebuilds if empty.
+    MUST NOT be called on the main Uvicorn thread (it blocks for 2-5 minutes).
     """
     global _rag_pipeline, _rag_init_info
-    
-    if _rag_pipeline is not None and _rag_pipeline.is_ready:
-        return _rag_pipeline
     
     _rag_init_info = {"stage": "starting"}
     
     try:
         logger.info("🔍 Initializing Industry-Standard Markdown RAG Pipeline...")
         _rag_init_info["stage"] = "creating_pipeline"
-        _rag_pipeline = MarkdownRAGPipeline(
+        pipeline = MarkdownRAGPipeline(
             persist_directory="./vector_store",
             collection_name="agrisense_v2",
             chunk_size=800,
             chunk_overlap=150,
         )
         _rag_init_info["stage"] = "pipeline_created"
-        _rag_init_info["collection_name"] = _rag_pipeline.vector_store.collection_name
-        _rag_init_info["embedding_provider"] = _rag_pipeline.vector_store.embedding_provider
+        _rag_init_info["collection_name"] = pipeline.vector_store.collection_name
+        _rag_init_info["embedding_provider"] = pipeline.vector_store.embedding_provider
         
         # Try Markdown knowledge base first (industry standard)
         md_kb_path = "./Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb"
@@ -140,7 +136,7 @@ def get_rag_pipeline() -> Optional[MarkdownRAGPipeline]:
         if md_path.exists() and list(md_path.glob('*.md')):
             logger.info("📚 Using Markdown knowledge base (Industry Standard)")
             _rag_init_info["stage"] = "build_no_force"
-            success = _rag_pipeline.build(md_kb_path, force_rebuild=False)
+            success = pipeline.build(md_kb_path, force_rebuild=False)
             _rag_init_info["build_no_force_result"] = success
             
             # Self-heal: if existing store loaded but is empty (e.g. broken
@@ -148,7 +144,7 @@ def get_rag_pipeline() -> Optional[MarkdownRAGPipeline]:
             # mismatch due to embedding-provider switch), force a rebuild
             # from the Markdown KB so vectors match the runtime provider.
             if success:
-                stats = _rag_pipeline.get_stats()
+                stats = pipeline.get_stats()
                 chunk_count = stats.get('document_count', 0)
                 _rag_init_info["chunk_count_after_load"] = chunk_count
                 _rag_init_info["stats_after_load"] = stats
@@ -157,39 +153,36 @@ def get_rag_pipeline() -> Optional[MarkdownRAGPipeline]:
                     _rag_init_info["stage"] = "build_force_rebuild_local"
                     # Create a NEW pipeline with a container-local writable path
                     # (the mounted ./vector_store may be read-only or broken on Azure Files)
-                    _rag_pipeline = MarkdownRAGPipeline(
+                    pipeline = MarkdownRAGPipeline(
                         persist_directory="/tmp/vector_store_local",
                         collection_name="agrisense_v2",
                         chunk_size=800,
                         chunk_overlap=150,
                     )
-                    success = _rag_pipeline.build(md_kb_path, force_rebuild=True)
+                    success = pipeline.build(md_kb_path, force_rebuild=True)
                     _rag_init_info["build_force_result"] = success
                     if success:
-                        stats2 = _rag_pipeline.get_stats()
+                        stats2 = pipeline.get_stats()
                         _rag_init_info["chunk_count_after_rebuild"] = stats2.get('document_count', 0)
         elif Path(json_fallback).exists():
             logger.info("📦 Markdown KB not found, using legacy JSON (run convert_to_markdown.py to upgrade)")
-            success = _rag_pipeline.build_from_json_legacy(json_fallback, force_rebuild=False)
+            success = pipeline.build_from_json_legacy(json_fallback, force_rebuild=False)
         else:
             logger.warning("⚠️ No knowledge base found - will use LLM knowledge only")
             _rag_init_info["stage"] = "no_kb_found"
-            _rag_pipeline = None
-            return None
+            return
         
         _rag_init_info["final_success"] = success
         if success:
-            stats = _rag_pipeline.get_stats()
+            stats = pipeline.get_stats()
             logger.info(f"✅ RAG Pipeline ready with {stats.get('document_count', 0)} chunks")
             logger.info(f"   Reranker: {'✅ Active' if stats.get('reranker_available') else '❌ Not available'}")
             logger.info(f"   Format: {stats.get('format', 'unknown')}")
             _rag_init_info["stage"] = "ready"
-            return _rag_pipeline
+            _rag_pipeline = pipeline  # Atomic assignment — now get_rag_pipeline() will return it
         else:
             logger.warning("⚠️ RAG Pipeline initialization failed - will use LLM knowledge only")
             _rag_init_info["stage"] = "build_returned_false"
-            _rag_pipeline = None
-            return None
             
     except Exception as e:
         import traceback
@@ -200,8 +193,35 @@ def get_rag_pipeline() -> Optional[MarkdownRAGPipeline]:
         logger.warning(f"⚠️ RAG Pipeline unavailable: {e}")
         logger.warning(f"   Full traceback:\n{tb}")
         logger.warning("   Falling back to LLM-only mode (no document retrieval)")
-        _rag_pipeline = None
-        return None
+
+
+def _start_rag_init():
+    """Launch RAG init in a background daemon thread so Uvicorn stays responsive."""
+    global _rag_init_started
+    if _rag_init_started:
+        return
+    _rag_init_started = True
+    
+    import threading
+    t = threading.Thread(target=_init_rag_sync, name="rag-init", daemon=True)
+    t.start()
+    logger.info("🚀 RAG pipeline initialization started in background thread")
+
+
+# Start init immediately at module import time
+_start_rag_init()
+
+
+def get_rag_pipeline() -> Optional[MarkdownRAGPipeline]:
+    """
+    Get the industry-standard Markdown RAG pipeline.
+    
+    Returns the pipeline if ready, or None if still initializing / failed.
+    Never blocks — the heavy init runs in a background thread.
+    """
+    if _rag_pipeline is not None and _rag_pipeline.is_ready:
+        return _rag_pipeline
+    return None
 
 
 def retrieve_context(disease_name: str, k: int = 5, use_reranker: bool = True, skip_cache: bool = False) -> tuple[str, list[dict], dict]:
