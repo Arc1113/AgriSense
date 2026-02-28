@@ -153,8 +153,16 @@ def get_rag_pipeline() -> Optional[MarkdownRAGPipeline]:
                 _rag_init_info["chunk_count_after_load"] = chunk_count
                 _rag_init_info["stats_after_load"] = stats
                 if chunk_count == 0:
-                    logger.warning("⚠️ Vector store loaded but contains 0 chunks — forcing rebuild")
-                    _rag_init_info["stage"] = "build_force_rebuild"
+                    logger.warning("⚠️ Vector store loaded but contains 0 chunks — rebuilding to local path")
+                    _rag_init_info["stage"] = "build_force_rebuild_local"
+                    # Create a NEW pipeline with a container-local writable path
+                    # (the mounted ./vector_store may be read-only or broken on Azure Files)
+                    _rag_pipeline = MarkdownRAGPipeline(
+                        persist_directory="/tmp/vector_store_local",
+                        collection_name="agrisense_v2",
+                        chunk_size=800,
+                        chunk_overlap=150,
+                    )
                     success = _rag_pipeline.build(md_kb_path, force_rebuild=True)
                     _rag_init_info["build_force_result"] = success
                     if success:
