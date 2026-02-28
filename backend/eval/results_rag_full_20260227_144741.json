@@ -1,0 +1,311 @@
+[
+  {
+    "case_id": "BS01",
+    "disease": "Bacterial Spot",
+    "category": "treatment",
+    "status": "pass",
+    "keyword_hit_rate": 0.75,
+    "expected_keywords_matched": [
+      "copper",
+      "bactericide",
+      "bacterial"
+    ],
+    "expected_keywords_missed": [
+      "remove infected"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 288.88416290283203,
+      "rerank_ms": 0.0,
+      "generation_ms": 1937.6800060272217,
+      "total_ms": 29022.74799346924
+    },
+    "rag_enabled": false,
+    "severity_expected": "Medium",
+    "severity_actual": "Medium",
+    "action_plan_preview": "1. Apply copper-based bactericide, Kocide 3000 (50% copper oxychloride), at a rate of 1.5 pounds per acre today when the plants are dry.\n2. Follow up with a second application of Kocide 3000 in 7-10 d"
+  },
+  {
+    "case_id": "BS02",
+    "disease": "Bacterial Spot",
+    "category": "prevention",
+    "status": "fail",
+    "keyword_hit_rate": 0.25,
+    "expected_keywords_matched": [
+      "copper"
+    ],
+    "expected_keywords_missed": [
+      "resistant varieties",
+      "crop rotation",
+      "avoid overhead irrigation"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 21.822452545166016,
+      "rerank_ms": 0.0,
+      "generation_ms": 1183.3815574645996,
+      "total_ms": 1218.2285785675049
+    },
+    "rag_enabled": false,
+    "severity_expected": "Medium",
+    "severity_actual": "Medium",
+    "action_plan_preview": "1. Apply copper-based bactericide, Kocide 3000 (50% copper oxychloride), at a rate of 1.5 pounds per acre today when the plants are dry.\n2. Follow up with a second application of Kocide 3000 in 7-10 d"
+  },
+  {
+    "case_id": "BS03",
+    "disease": "Bacterial Spot",
+    "category": "diagnosis",
+    "status": "fail",
+    "keyword_hit_rate": 0.0,
+    "expected_keywords_matched": [],
+    "expected_keywords_missed": [
+      "spots",
+      "lesion",
+      "leaves",
+      "fruit",
+      "water-soaked"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 17.31252670288086,
+      "rerank_ms": 0.0,
+      "generation_ms": 1114.0248775482178,
+      "total_ms": 1142.066478729248
+    },
+    "rag_enabled": false,
+    "severity_expected": "Medium",
+    "severity_actual": "Medium",
+    "action_plan_preview": "1. Apply copper-based bactericide, Kocide 3000 (50% copper oxychloride), at a rate of 1.5 pounds per acre today when the plants are dry.\n2. Follow up with a second application of Kocide 3000 in 7-10 d"
+  },
+  {
+    "case_id": "BS04",
+    "disease": "Bacterial Spot",
+    "category": "weather_aware",
+    "status": "fail",
+    "keyword_hit_rate": 0.25,
+    "expected_keywords_matched": [
+      "copper"
+    ],
+    "expected_keywords_missed": [
+      "drainage",
+      "humidity",
+      "remove"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 19.737720489501953,
+      "rerank_ms": 0.0,
+      "generation_ms": 838.8612270355225,
+      "total_ms": 868.1461811065674
+    },
+    "rag_enabled": false,
+    "severity_expected": "High",
+    "severity_actual": "Medium",
+    "action_plan_preview": "1. Apply copper-based bactericide, Kocide 3000 (50% copper oxychloride), at a rate of 1.5 pounds per acre today when the plants are dry.\n2. Follow up with a second application of Kocide 3000 in 7-10 d"
+  },
+  {
+    "case_id": "BS05",
+    "disease": "Bacterial Spot",
+    "category": "treatment",
+    "status": "pass",
+    "keyword_hit_rate": 0.75,
+    "expected_keywords_matched": [
+      "copper",
+      "bactericide",
+      "bacterial"
+    ],
+    "expected_keywords_missed": [
+      "not fungicide"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 18.133163452148438,
+      "rerank_ms": 0.0,
+      "generation_ms": 851.4719009399414,
+      "total_ms": 880.4624080657959
+    },
+    "rag_enabled": false,
+    "severity_expected": "Medium",
+    "severity_actual": "Medium",
+    "action_plan_preview": "1. Apply copper-based bactericide, Kocide 3000 (50% copper oxychloride), at a rate of 1.5 pounds per acre today when the plants are dry.\n2. Follow up with a second application of Kocide 3000 in 7-10 d"
+  },
+  {
+    "case_id": "BS06",
+    "disease": "Bacterial Spot",
+    "category": "treatment",
+    "status": "pass",
+    "keyword_hit_rate": 0.5,
+    "expected_keywords_matched": [
+      "copper",
+      "spray"
+    ],
+    "expected_keywords_missed": [
+      "copper hydroxide",
+      "interval"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 16.199588775634766,
+      "rerank_ms": 0.0,
+      "generation_ms": 865.0979995727539,
+      "total_ms": 891.0210132598877
+    },
+    "rag_enabled": false,
+    "severity_expected": "Medium",
+    "severity_actual": "Medium",
+    "action_plan_preview": "1. Apply copper-based bactericide, Kocide 3000 (50% copper oxychloride), at a rate of 1.5 pounds per acre today when the plants are dry.\n2. Follow up with a second application of Kocide 3000 in 7-10 d"
+  },
+  {
+    "case_id": "BS07",
+    "disease": "Bacterial Spot",
+    "category": "management",
+    "status": "pass",
+    "keyword_hit_rate": 0.5,
+    "expected_keywords_matched": [
+      "infected",
+      "sanitation"
+    ],
+    "expected_keywords_missed": [
+      "remove",
+      "destroy"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 18.47076416015625,
+      "rerank_ms": 0.0,
+      "generation_ms": 821.8016624450684,
+      "total_ms": 851.4714241027832
+    },
+    "rag_enabled": false,
+    "severity_expected": "High",
+    "severity_actual": "Medium",
+    "action_plan_preview": "1. Apply copper-based bactericide, Kocide 3000 (50% copper oxychloride), at a rate of 1.5 pounds per acre today when the plants are dry.\n2. Follow up with a second application of Kocide 3000 in 7-10 d"
+  },
+  {
+    "case_id": "BS08",
+    "disease": "Bacterial Spot",
+    "category": "diagnosis",
+    "status": "fail",
+    "keyword_hit_rate": 0.0,
+    "expected_keywords_matched": [],
+    "expected_keywords_missed": [
+      "rain splash",
+      "wind",
+      "contaminated",
+      "seed",
+      "water"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 18.539905548095703,
+      "rerank_ms": 0.0,
+      "generation_ms": 1064.3291473388672,
+      "total_ms": 1093.9459800720215
+    },
+    "rag_enabled": false,
+    "severity_expected": "Medium",
+    "severity_actual": "Medium",
+    "action_plan_preview": "1. Apply copper-based bactericide, Kocide 3000 (50% copper oxychloride), at a rate of 1.5 pounds per acre today when the plants are dry.\n2. Follow up with a second application of Kocide 3000 in 7-10 d"
+  },
+  {
+    "case_id": "BS09",
+    "disease": "Bacterial Spot",
+    "category": "prevention",
+    "status": "fail",
+    "keyword_hit_rate": 0.0,
+    "expected_keywords_matched": [],
+    "expected_keywords_missed": [
+      "resistant",
+      "varieties",
+      "tolerance"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 18.960237503051758,
+      "rerank_ms": 0.0,
+      "generation_ms": 0.0,
+      "total_ms": 593.4529304504395
+    },
+    "rag_enabled": false,
+    "severity_expected": "Low",
+    "severity_actual": "Medium",
+    "action_plan_preview": "Apply copper-based bactericide. Remove and destroy infected leaves. Avoid overhead watering."
+  },
+  {
+    "case_id": "BS10",
+    "disease": "Bacterial Spot",
+    "category": "safety",
+    "status": "pass",
+    "keyword_hit_rate": 0.8,
+    "expected_keywords_matched": [
+      "gloves",
+      "PPE",
+      "protective",
+      "copper"
+    ],
+    "expected_keywords_missed": [
+      "safety"
+    ],
+    "hallucination_count": 0,
+    "hallucination_keywords_found": [],
+    "grounded": false,
+    "citation_precision": 0.0,
+    "num_sources": 0,
+    "sources": [],
+    "latency": {
+      "retrieval_ms": 18.692493438720703,
+      "rerank_ms": 0.0,
+      "generation_ms": 0.0,
+      "total_ms": 350.6600856781006
+    },
+    "rag_enabled": false,
+    "severity_expected": "High",
+    "severity_actual": "Medium",
+    "action_plan_preview": "Apply copper-based bactericide. Remove and destroy infected leaves. Avoid overhead watering."
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "model_name": "AgriSense Tomato Leaf Detector v2",
+  "version": "2.0.0",
+  "architecture": "YOLOv8s",
+  "input_shape": [
+    640,
+    640,
+    3
+  ],
+  "num_classes": 1,
+  "class_names": [
+    "Tomato_Leaf"
+  ],
+  "confidence_threshold": 0.25,
+  "iou_threshold": 0.6,
+  "training": {
+    "dataset": "tomatoproject-475ss (Roboflow v3)",
+    "epochs": 100,
+    "patience": 20,
+    "optimizer": "AdamW",
+    "lr0": 0.001,
+    "imgsz": 640,
+    "close_mosaic": 15,
+    "augmentation_config": {
+      "hsv_h": 0.015,
+      "hsv_s": 0.7,
+      "hsv_v": 0.4,
+      "degrees": 15.0,
+      "translate": 0.1,
+      "scale": 0.5,
+      "shear": 2.5,
+      "perspective": 0.0005,
+      "fliplr": 0.5,
+      "flipud": 0.1,
+      "mosaic": 1.0,
+      "mixup": 0.15,
+      "copy_paste": 0.3
+    }
+  },
+  "export_files": {
+    "pytorch": "yolov8s_tomato_leaf.pt",
+    "onnx": "yolov8s_tomato_leaf.onnx",
+    "tflite_fp16": "yolov8s_tomato_leaf_fp16.tflite"
+  },
+  "improvements_over_v1": {
+    "model": "YOLOv8n \u2192 YOLOv8s (3M \u2192 11M params)",
+    "resolution": "320 \u2192 640",
+    "training": "3-phase \u2192 single coherent run"
+  }
+}

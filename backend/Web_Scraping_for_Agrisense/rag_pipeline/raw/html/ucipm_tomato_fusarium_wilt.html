@@ -1,0 +1,441 @@
+<!-- INF10\startRequest.cfm -->
+<!-- page-view-agriculture\index.cfm -->
+<!-- // Debug: ~infVer:10.0.0~/agriculture/tomato/fusarium-wilt~ck:502~sk:9~v:0~pk:PMG~pv:02~tn:viewpage2x10~tv:2022~tk:1~ -->
+<!-- INF10\header-v4.cfm -->
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,300,100&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css"/>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css"/>
+<link href="/assets_v5/styles/core.css" rel="stylesheet" type="text/css"/>
+<link href="/assets_v6/styles/bootstrap-4.css" rel="stylesheet" type="text/css">
+<link href="/assets_v6/images/favicon.ico" rel="icon" type="image/png"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://unpkg.com/intercooler@1.2.3/dist/intercooler.js"></script>
+<link href="/assets_v6/fontawesome6_5_1/css/fontawesome.css" rel="stylesheet"/>
+<link href="/assets_v6/fontawesome6_5_1/css/brands.css" rel="stylesheet"/>
+<link href="/assets_v6/fontawesome6_5_1/css/solid.css" rel="stylesheet"/>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NPR7B4');</script>
+<!-- End Google Tag Manager -->
+<script>
+		(function() {
+			var cx = '014616282592139902646:ltwuetmnjdo';
+			var gcse = document.createElement('script');
+			gcse.type = 'text/javascript';
+			gcse.async = true;
+			gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(gcse, s);
+			})();
+	</script>
+<style>	
+		.icon-bar {
+		position: fixed;
+		z-index: 500;
+		top: calc(100vh - (100vh - 40%));
+		right: 0;
+		left: calc(100vw - 105px);
+		width: 140px;
+		-webkit-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+		transform: translateY(-50%);
+		transform: rotate(-90deg);
+		}
+
+		.icon-bar a {
+		display: block;
+		text-align: center;
+		padding: 14px;
+		transition: all 0.3s ease;
+		color: white !important;
+		font-size: 16px;
+		border-bottom: none;
+		}
+		
+		.icon-bar a:hover {
+		background-color: #000;
+		}
+		
+		.pdf {
+		background: #bb0000;
+		color: white;
+		}
+
+		.print {
+		background: #008EAA;
+		color: white;
+		}
+		
+		.feedback {
+		background: #005581;
+		color: white;
+		span{
+			font-size:16px!important;
+		}
+		}
+
+		@media print { 
+			.icon-bar {
+				display: none !important;
+			}
+		}
+	</style>
+<title>Fusarium Wilt / Tomato / Agriculture: Pest Management Guidelines / UC Statewide IPM Program (UC IPM)</title>
+</link></head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-NPR7B4" style="display:none;visibility:hidden" width="0"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<nav class="navbar fixed-top bg-light">
+<button aria-controls="demoTarget" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#demoTarget" data-toggle="collapse" id="sandwichButton" type="button">
+<i aria-hidden="true" class="fa fa-bars" id="sandwichButtonImage"></i>
+</button>
+<a class="navbar-brand" href="/">
+<img alt="Logo for Statewide Integrated Pest Management Program, University of California Agriculture and Natural Resources Logo" id="CORE_logo" src="/assets_v6/images/logo/header-logo-ipm.svg" width="150px"/>
+</a>
+<div class="collapse navbar-collapse main-nav scroll" id="demoTarget">
+<gcse:search></gcse:search>
+<ul class="navbar-nav mainMenu mr-auto mt-2 mt-lg-0">
+<li class="nav-item">
+<a aria-controls="HGTF" aria-expanded="false" class="nav-link dropdown-toggle audience" data-toggle="collapse" href="#HGTF">Home, Garden, Turf and Landscape</a>
+</li>
+<div class="collapse" id="HGTF">
+<div class="secondary-nav">
+<li><a class="nav-link secondary" href="/home-and-landscape/">Home and Garden</a></li>
+<li><a class="nav-link secondary" href="/home-and-landscape/plant-problem-diagnostic-tool/">Plant Pest Diagnostic Tool</a></li>
+<li><a class="nav-link secondary" href="/home-and-landscape/resources-for-retail-nurseries-and-garden-centers/">Retail Nurseries &amp; Garden Centers </a></li>
+<li><a class="nav-link secondary" href="/home-and-landscape/resources-for-landscape-professionals/">Landscape Professionals</a></li>
+<li><a class="nav-link secondary" href="/home-and-landscape/master-gardeners/">UC Master Gardeners</a></li>
+</div>
+</div>
+<li class="nav-item">
+<a aria-controls="Ag" aria-expanded="false" class="nav-link dropdown-toggle audience" data-toggle="collapse" href="#Ag">Agriculture</a>
+</li>
+<div class="collapse" id="Ag">
+<div class="secondary-nav">
+<li><a class="nav-link secondary" href="/agriculture/">Pest Management Guidelines</a></li>
+<li><a class="nav-link secondary" href="/agriculture/decision-support-tool/">Decision Support Tool</a></li>
+<li><a class="nav-link secondary" href="/WEATHER/index.html">Weather, Models &amp; Degree-Days</a></li>
+</div>
+</div>
+<li class="nav-item">
+<a class="nav-link audience" href="/invasive-and-exotic-pests/">Invasive and Exotic Pests</a>
+</li>
+<li class="nav-item">
+<a class="nav-link audience" href="/NATURAL/index.html">Natural Environments</a>
+</li>
+<div class="secondary-nav">
+<li class="nav-item">
+<a aria-controls="UCIPM" aria-expanded="false" class="nav-link dropdown-toggle sub-menu secondary-link" data-toggle="collapse" href="#UCIPM">About UC IPM</a>
+</li>
+<div class="collapse" id="UCIPM">
+<div class="secondary-sub-nav">
+<li><a class="nav-link" href="/IPMPROJECT/about.html">What We Do</a></li>
+<li><a class="nav-link" href="/strategic-plan/">Strategic Plan 2015–2025</a></li>
+<li><a class="nav-link" href="/highlights/">Annual Report</a></li>
+<li><a class="nav-link" href="/IPMPROJECT/programs.html">UC IPM Programs</a></li>
+<li><a class="nav-link" href="/IPMPROJECT/programreview.html">Program Review</a></li>
+</div>
+</div>
+<li class="nav-item">
+<a aria-controls="Galleries" aria-expanded="false" class="nav-link dropdown-toggle sub-menu secondary-link" data-toggle="collapse" href="#Galleries">Galleries</a>
+</li>
+<div class="collapse" id="Galleries">
+<div class="secondary-sub-nav">
+<li><a class="nav-link" href="/IPMPROJECT/videolibrary.html">Video Gallery</a></li>
+<li><a class="nav-link" href="/PMG/weeds_intro.html">Weed Gallery</a></li>
+<li><a class="nav-link" href="/natural-enemies/">Natural Enemies Gallery</a></li>
+</div>
+</div>
+<li><a class="nav-link secondary secondary-link" href="/PMG/glossary.html">Glossary</a></li>
+<li><a class="nav-link secondary secondary-link" href="/GENERAL/links.html">Links</a></li>
+<li><a class="nav-link secondary secondary-link" href="/IPMPROJECT/pubsmenu.html">Publications and Newsletters</a></li>
+<li><a class="nav-link secondary secondary-link" href="/GENERAL/pesticides.html">Pesticide Information</a></li>
+<li class="nav-item">
+<a aria-controls="Tools" aria-expanded="false" class="nav-link dropdown-toggle sub-menu secondary-link" data-toggle="collapse" href="#Tools">Tools</a>
+</li>
+<div class="collapse" id="Tools">
+<div class="secondary-sub-nav">
+<li><a class="nav-link" href="/bee-precaution-pesticide-ratings/">Bee precaution pesticide ratings</a></li>
+<li><a class="nav-link" href="/agriculture/decision-support-tool/">Decision Support Tool</a></li>
+<li><a class="nav-link" href="/home-and-landscape/plant-problem-diagnostic-tool/">Plant Problem Diagnostic Tool</a></li>
+<li><a class="nav-link" href="/home-and-landscape/seasonal-landscape-ipm-checklist/">Seasonal Landscape IPM Checklist</a></li>
+<li><a class="nav-link" href="/WEATHER/index.html">Weather, models, &amp; degree-days</a></li>
+</div>
+</div>
+<li><a class="nav-link secondary secondary-link" href="/IPMPROJECT/workshops.html">Trainings and Events</a></li>
+<li><a class="nav-link secondary secondary-link" href="/what-is-ipm/">What is IPM</a></li>
+<li><a class="nav-link secondary secondary-link" href="/IPMPROJECT/recursos-espanol.html"><span lang="es">Recursos en español<span></span></span></a></li>
+</div>
+</ul>
+</div>
+</nav>
+<div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade" id="imageDisplayModal" role="dialog" tabindex="-1">
+<div class="vertical-alignment-helper">
+<div class="modal-dialog vertical-align-center" style="margin-top:50px;">
+<div class="modal-header" style="background-color:white; border-bottom-width:0px;">
+<h5 class="modal-title" id="myLargeModalLabel" style="color:black; font-weight:bolder;"> </h5>
+<button aria-label="close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-content" style="border-radius:0px; border-bottom-width:1px; border-top-width:1px; border-left-width:0px; border-right-width:0px; padding-top:5px; padding-bottom:5px; border-bottom-color:rgb(235, 235, 235); border-top-color:rgb(235, 235, 235);">
+<img alt="modal image place holder" class="mx-auto img-fluid" id="modalImage" src=""/>
+</div>
+<div class="modal-footer" style="background-color:white; border-bottom-width:0px;">
+<a href="" id="modalImagePageLink" onclick="" target="_blank">Image information and credit</a>
+</div>
+</div>
+</div>
+</div>
+<div aria-hidden="true" aria-labelledby="ModalScrollableSurvey" class="modal fade" id="surveyModal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header" style="margin-right:20px;">
+<h3 class="modal-title" id="ModalScrollableSurvey">Feedback</h3>
+<button aria-label="Close" class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true" style="font-size:24px;">×</span>
+</button>
+</div>
+<div class="modal-body">
+<iframe allowfullscreen="" height="1000px" id="modalIFrameSurvey" src="" style="width: 100% !important; max-width: 100% !important; visibility: visible !important; opacity: 1 !important;" title="Survey"></iframe>
+</div>
+</div>
+</div>
+</div>
+<div id="ae-chatbot-widget"></div>
+<!-- PMG02\Templates\PMG_viewpage2x10_1_2022.cfm -->
+<!-- INF10\inf_cleanLegacyHTML-v1.cfm -->
+<!-- INF10\inf_banner_image-v5.cfm -->
+<div class="banner">
+<div class="container">
+<div class="row">
+<div>
+<img alt="Yellowing and wilting of a tomato plant caused by Fusarium wilt." border="0" class="img-fluid" height="100%" src="/PMG/IMAGES/F/D-TO-FOXL-FS.003banner.jpg" title="Yellowing and wilting of a tomato plant caused by Fusarium wilt. Credit: R. Michael Davis" width="100%">
+</img></div>
+</div>
+</div>
+</div>
+<div aria-label="Navigation breadcrumb" class="breadcrumb" role="region">
+<div class="container">
+<ol class="breadcrumb" style="padding-left: 0px;">
+<li class="breadcrumb-item"><a href="/">UC IPM</a></li>
+<li class="breadcrumb-item"><a href="/agriculture/">Agriculture</a></li>
+<li class="breadcrumb-item"><a href="/agriculture/tomato/">Tomato</a></li>
+<li class="breadcrumb-item active">Fusarium Wilt</li>
+</ol>
+</div>
+</div>
+<div class="container" ic-src="/ic-giving-tuesday-alert.cfm" ic-trigger-on="load">
+</div>
+<header>
+<div class="container">
+<p class="h5">Agriculture: Tomato Pest Management Guidelines</p>
+<h1>Fusarium Wilt</h1>
+<li><em>Fusarium oxysporum</em> f. sp. <em>lycopersici</em></li>
+</div>
+</header>
+<main>
+<div class="container">
+<div class="row">
+<div class="col-md-2 in-page-nav">
+<div style="position: -webkit-sticky; position: sticky; top: 60px;">
+<div class="sidebar_inner">
+<p class="h3" style="margin-top: 0px;">On This Page</p>
+<ul class="nav flex-column">
+<li class="nav-item">
+<a href="#SYMPTOMS" onclick="_sz.push(['event', 'PMG_Content', 'On this page', 'Symptoms and Signs']);">
+										Symptoms and Signs
+									</a>
+</li>
+<li class="nav-item">
+<a href="#COMMENTS" onclick="_sz.push(['event', 'PMG_Content', 'On this page', 'Comments on the Disease']);">
+										Comments on the Disease
+									</a>
+</li>
+<li class="nav-item">
+<a href="#MANAGEMENT" onclick="_sz.push(['event', 'PMG_Content', 'On this page', 'Management']);">
+										Management
+									</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!--Main page content-->
+<div class="col-md-12 col-lg-10">
+<span id="SYMPTOMS"></span>
+<h2>Symptoms and Signs</h2>
+<div>
+<!-- cleanLegacyHTML -->
+<p>The Fusarium wilt fungus infects plants through the rootlets, invading the <a href="/PMG/F/D-TO-FOXL-ST.004.html">xylem</a> and eventually extending throughout the plant. Individual branches and associated <a href="/PMG/F/D-TO-FOXL-FO.003.html">leaves</a> on plants infected with Fusarium become yellow and wilt. Sometimes only one branch or one side of the plant is affected, creating a <a href="/PMG/F/D-TO-FOXL-FS.003.html">yellow flag effect</a>. Infected plants usually die. A dark brown <a href="/PMG/F/D-TO-FOXL-ST.002.html">vascular discoloration</a> extends far up the stem. Symptoms often first appear during fruit sizing.</p>
+</div>
+<span id="COMMENTS"></span>
+<h2>Comments on the Disease</h2>
+<div>
+<!-- cleanLegacyHTML -->
+<p>Symptoms of Fusarium and <a href="/PMG/V/D-TO-VDAH-BT.002.html">Verticillium wilts</a> are similar and may require culturing the fungus in a laboratory for positive identification. Fusarium wilt can greatly reduce yields in fields with a high incidence of <i>Fusarium.</i> The fungus overwinters and survives for many years in the soil as spores and on the outer surface of other plants, such as weeds and other crops, without causing them harm. Long distance spread is by seed, transplants, and soil on farm machinery. The disease is favored by warm weather. </p>
+<p>The fungus only infects tomato but exists as three races. Race 1 is widespread; Race 2 is common in the Sacramento Valley and in the northern San Joaquin Valley; and Race 3 is in the Sacramento Valley and spreading into the San Joaquin Valley.</p>
+</div>
+<span id="MANAGEMENT"></span>
+<h2>Management</h2>
+<div>
+<!-- cleanLegacyHTML -->
+<p>Use <a href="/agriculture/tomato/Variety-Selection/">resistant tomato varieties</a>. Resistant varieties are common for Race 1, and many are also resistant to Race 2. A few varieties are resistant to all three races. Limit the spread of infested soil by cleaning farm equipment. Avoid root-knot nematode infestations because nematode feeding can overcome the plant resistance to Fusarium wilt. Rotation out of tomatoes for several years reduces inoculum level, although Fusarium is long-lived.</p>
+</div>
+<!--References, Authors, Acknowledgements-->
+<aside class="col-md-12">
+<p><img alt="UC Peer Reviewed logo" src="/assets_v6/images/uc-peer-reviewed.png" width="50px"/></p>
+<p><strong>UC IPM Pest Management Guidelines: Tomato<br/>
+					UC ANR Publication 3470</strong></p>
+<p><a href="">R.M. Davis</a> (emeritus), Plant Pathology, UC Davis</p><p><a href="https://ucanr.edu/About/DirectorySearch/index.cfm?facultyid=1570">G. Miyao</a> (emeritus), UC Cooperative Extension Yolo County</p><p><a href="https://ucanr.edu/About/DirectorySearch/index.cfm?facultyid=2195">K.V. Subbarao</a>, Plant Pathology, UC Davis</p><p><a href="https://ucanr.edu/About/DirectorySearch/index.cfm?facultyid=2159">J.J. Stapleton</a>, UC IPM and Kearney Agricultural Research and Extension Center, Parlier</p><p><a href="https://ucanr.edu/About/DirectorySearch/index.cfm?facultyid=11">B.J. Aegerter</a>, UC Cooperative Extension San Joaquin County (powdery mildew on field-grown tomatoes)</p>
+<p class="h5">Acknowledgement for Contributions to Diseases</p>
+<p><a href="https://ucanr.edu/About/DirectorySearch/index.cfm?facultyid=645">B.W. Falk</a>, Plant Pathology, UC Davis</p><p><a href="https://ucanr.edu/About/DirectorySearch/index.cfm?facultyid=789">R.L. Gilbertson</a>, Plant Pathology, UC Davis (tomato yellow leaf curl)</p>
+</aside>
+<div class="col-md-12 update-date">
+<p class="h6">
+						Text Updated: 12/13<br/>
+</p>
+</div>
+</div>
+</div>
+</div>
+</main><!-- INF10\footer-v4.cfm -->
+<div aria-label="Feedback icon" class="icon-bar" role="region">
+<a class="feedback stretched-link" data-html="true" data-placement="left" data-popover-content="#popoverContent" data-toggle="popover" data-trigger="hover" id="feedback" onclick="" tabindex="0"></a>
+<span><i class="fa-solid fa-message ml-2"></i>Feedback</span>
+
+</div>
+<footer class="main-footer-content">
+<div class="container">
+<div class="row">
+<div class="col-sm-12 col-md-6 col-lg-3">
+<p class="h3"><a href="/home-and-landscape/">Home, Garden, Turf, and Landscape</a></p>
+<ul>
+<li><a href="/home-and-landscape/plant-problem-diagnostic-tool/">Plant Pest Diagnostic Tool</a></li>
+<li><a href="/home-and-landscape/resources-for-retail-nurseries-and-garden-centers/">Retail Nurseries &amp; Garden Centers</a></li>
+<li><a href="/home-and-landscape/resources-for-landscape-professionals/">Landscape Professionals</a></li>
+<li><a href="/home-and-landscape/master-gardeners/">UC Master Gardeners</a></li>
+</ul>
+</div>
+<div class="col-sm-12 col-md-6 col-lg-3">
+<p class="h3"><a href="/agriculture/">Agriculture Pest Management Guidelines</a></p>
+<ul>
+<li><a href="/agriculture/decision-support-tool/">Decision Support Tool</a></li>
+<li><a href="/WEATHER/index.html">Weather Models &amp; Degree-Days</a></li>
+</ul>
+</div>
+<div class="col-sm-12 col-md-6 col-lg-3">
+<p class="h3"><a href="/invasive-and-exotic-pests/">Invasive and Exotic Pests</a></p>
+</div>
+<div class="col-sm-12 col-md-6 col-lg-3">
+<p class="h3"><a href="/NATURAL/index.html">Natural Environment</a></p>
+</div>
+</div>
+<div class="row text-center link-group">
+<div class="col-sm-12 col-md-12 col-lg-12">
+<p class="h6">About UC IPM</p>
+<ul class="list-inline">
+<li class="list-inline-item"><a href="/IPMPROJECT/about.html">What We Do</a></li>
+<li class="list-inline-item"><a href="/strategic-plan/">Strategic Plan 2015–2025</a></li>
+<li class="list-inline-item"><a href="/highlights/">Annual Report</a></li>
+<li class="list-inline-item"><a href="/IPMPROJECT/programs.html">UC IPM Programs</a></li>
+<li class="list-inline-item"><a href="/IPMPROJECT/programreview.html">Program Review</a></li>
+</ul>
+</div>
+</div>
+<div class="row text-center link-group" style="border-bottom: 1px primary #747A91;">
+<div class="col-sm-12 col-md-12 col-lg-12">
+<p class="h6">Galleries</p>
+<ul class="list-inline">
+<li class="list-inline-item"><a href="/IPMPROJECT/videolibrary.html">Videos</a></li>
+<li class="list-inline-item"><a href="/PMG/weeds_intro.html">Weeds</a></li>
+<li class="list-inline-item"><a href="/natural-enemies/">Natural Enemies</a></li>
+</ul>
+</div>
+</div>
+<div class="row text-center link-group" style="border-bottom: 1px primary #747A91;">
+<div class="col-sm-12 col-md-12 col-lg-12">
+<ul class="list-inline">
+<li class="list-inline-item"><a href="/PMG/glossary.html">Glossary</a></li>
+<li class="list-inline-item"><a href="/GENERAL/links.html">Links</a></li>
+<li class="list-inline-item"><a href="/IPMPROJECT/pubsmenu.html">Publications &amp; Newsletters</a></li>
+<li class="list-inline-item"><a href="/GENERAL/pesticides.html">Pesticide Information</a></li>
+<li class="list-inline-item"><a href="/IPMPROJECT/workshops.html">Training &amp; Events</a></li>
+<li class="list-inline-item"><a href="/what-is-ipm/">What is IPM?</a></li>
+<li class="list-inline-item"><a href="/IPMPROJECT/recursos-espanol.html"><span lang="es">Recursos en español</span></a></li>
+</ul>
+</div>
+</div>
+<div class="row text-center" style="padding-top: 25px;">
+<div class="col-sm-12 col-md-12 col-sm-12">
+<div>
+<p><img alt="Ipm logo" src="/assets_v6/images/logo/footer-logo-ipm-white.svg" width="150px"/> </p>
+<p class="h4">Statewide Integrated Pest Management Program</p>
+<p class="h6">University of California Agriculture and Natural Resources</p>
+</div>
+</div>
+</div>
+<div class="row text-center social-media">
+<div class="col-sm-12 col-md-12 col-lg-12">
+<p class="h3"> Follow Us </p>
+<ul class="list-inline" style="padding-bottom: 15px;">
+<li class="list-inline-item" style="padding-right: 15px;"><a aria-label="twitter" href="https://twitter.com/ucipm?lang=en"><i class="fa-brands fa-square-twitter"></i></a></li>
+<li class="list-inline-item" style="padding-right: 15px;"><a aria-label="facebook" href="https://www.facebook.com/UCIPM/"><i class="fa-brands fa-square-facebook"></i></a></li>
+<li class="list-inline-item" style="padding-right: 15px;"><a aria-label="instagram" href="https://www.instagram.com/ucipm/"><i class="fa-brands fa-square-instagram"></i></a></li>
+<li aria-label="youtube" class="list-inline-item" style="padding-right: 15px;"><a aria-label="youtube" href="https://www.youtube.com/user/UCIPM"><i class="fa-brands fa-square-youtube"></i></a></li>
+<li class="list-inline-item" style="padding-right: 15px;"> <a aria-label="linkedin" href="https://www.linkedin.com/showcase/uc-integrated-pest-management/"><i class="fa-brands fa-linkedin"></i></a> </li>
+<li class="list-inline-item"><a aria-label="subscription" href="/GENERAL/rssfeeds.html"><i class="fa-solid fa-square-rss"></i></a></li>
+</ul>
+<ul class="list-inline audience">
+<li class="list-inline-item">Home and Landscape:  <a href="https://twitter.com/ucipmurban/">Twitter</a></li>
+<li class="list-inline-item"><a href="https://www.facebook.com/ucipmurban/">Facebook</a></li>
+<li class="list-inline-item"><a href="https://www.instagram.com/ucipmurban/">Instagram</a></li>
+</ul>
+</div>
+</div>
+</div>
+</footer>
+<footer class="copyright">
+<div class="container">
+<div class="row text-center">
+<div class="col-sm-12 col-md-12 col-lg-4 text-lg-left">
+<p class="h5"><a href="https://ucanr.edu/?copyright" style="text-decoration: none; border-bottom: 0px; font-weight: 300; font-size: 12px;">©1996—2026 Statewide IPM Program, Agriculture and Natural Resources, University of California Regents of the University of California unless otherwise noted.</a></p>
+</div>
+<div class="col-sm-12 col-md-12 col-lg-6 offset-lg-2 text-lg-right">
+<a href="/GENERAL/ceofficefinder.html">
+<button class="btn button-ucce" type="button">Find Your Local Cooperative Extension Office</button>
+</a>
+<ul class="list-inline">
+<li class="list-inline-item"><a href="/GENERAL/copyright.html">Use Permissions &amp; Citation</a></li>
+<li class="list-inline-item"><a href="/nondiscrimination-statements/">Nondiscrimination Statement</a></li>
+<li class="list-inline-item"><a href="/GENERAL/acknowledgments.html">Acknowledgements</a></li>
+<li class="list-inline-item"><a href="/accessibility/">Accessibility</a></li>
+<li class="list-inline-item"><a href="https://ucanr.edu/?privacyStatement">Privacy</a></li>
+<li class="list-inline-item"><a href="/ADMIN/">Staff-Only Pages</a></li>
+<li class="list-inline-item"><a href="mailto:ipm-webmaster@ad3.ucdavis.edu">Contact UC IPM</a></li>
+<li class="list-inline-item"><a href="mailto:ipm-webmaster@ad3.ucdavis.edu">Contact Webmaster</a></li>
+</ul>
+</div>
+</div>
+</div>
+</footer>
+<script crossorigin="anonymous" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+		function surveyButton(surveyLink){
+			src = "/page-view-agriculture/index.cfm?requestPage=/agriculture/tomato/fusarium-wilt/";
+			surveyLinkSRC = surveyLink + "?src=" + src;
+			
+			$('#modalIFrameSurvey').attr('src', surveyLinkSRC);
+			$('#ModalScrollableSurvey').html('Feedback: Fusarium Wilt');
+			$('#surveyModal').modal('toggle');
+		}
+	</script>
+<script>$('#feedback').attr('onclick', 'surveyButton("https://ucanr.co1.qualtrics.com/jfe/form/SV_eFOlkBrLcKqY2ay");');</script>
+<script async="" src="https://siteimproveanalytics.com/js/siteanalyze_8343.js"></script>
+</body>
+</html>

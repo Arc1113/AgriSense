@@ -2,19 +2,169 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#059669" />
-    <meta name="description" content="AgriSense - AI-powered tomato disease detection for farmers" />
+    
+    <!-- PWA Essential Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="theme-color" content="#22c55e" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#16a34a" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    
+    <!-- SEO & Description -->
+    <meta name="description" content="AgriSense - AI-powered plant disease detection. Get instant diagnosis and treatment recommendations for your plants using deep learning technology." />
+    <meta name="keywords" content="plant disease, AI diagnosis, agriculture, farming, crop health, plant doctor, leaf disease, tomato disease" />
+    <meta name="author" content="AgriSense" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Apple/iOS PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>AgriSense - Tomato Disease Detection</title>
+    <meta name="apple-mobile-web-app-title" content="AgriSense" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
+    <link rel="apple-touch-startup-image" href="/icons/icon-512x512.svg" />
+    
+    <!-- Microsoft/Windows PWA Meta Tags -->
+    <meta name="msapplication-TileColor" content="#22c55e" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    <meta name="application-name" content="AgriSense" />
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AgriSense | AI Plant Doctor" />
+    <meta property="og:description" content="AI-powered plant disease detection. Get instant diagnosis and treatment recommendations." />
+    <meta property="og:image" content="/icons/icon-512x512.svg" />
+    <meta property="og:url" content="https://agrisense.app" />
+    <meta property="og:site_name" content="AgriSense" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AgriSense | AI Plant Doctor" />
+    <meta name="twitter:description" content="AI-powered plant disease detection. Get instant diagnosis and treatment recommendations." />
+    <meta name="twitter:image" content="/icons/icon-512x512.svg" />
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon.svg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon.svg" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Preconnect for faster resource loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    
+    <!-- Optimized font loading - async with fallback -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" /></noscript>
+    
+    <title>AgriSense | AI Plant Doctor</title>
+    
+    <style>
+      /* Font fallback stack for faster paint */
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      
+      /* Critical CSS for faster initial paint */
+      html, body, #root {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: linear-gradient(135deg, #f8f9fb 0%, #f0f2f5 50%, #f8f9fb 100%);
+      }
+      
+      /* Screen reader only utility */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      
+      /* Loading state placeholder */
+      #root:empty::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f8f9fb 0%, #f0f2f5 50%, #f8f9fb 100%);
+      }
+      
+      #root:empty::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 48px;
+        height: 48px;
+        border: 3px solid rgba(34, 197, 94, 0.2);
+        border-top-color: #22c55e;
+        border-radius: 50%;
+        animation: spinner 0.8s linear infinite;
+      }
+      
+      @keyframes spinner {
+        to { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- Skip to main content for accessibility -->
+    <a href="#root" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-lg">
+      Skip to main content
+    </a>
+    
+    <div id="root" role="main" aria-label="AgriSense Plant Disease Detection Application"></div>
+    
+    <!-- Main app script with high priority -->
+    <script type="module" src="/src/main.jsx" fetchpriority="high"></script>
+    
+    <!-- Service Worker Registration - Deferred to not block initial render -->
+    <script>
+      // Register SW after page is interactive to not impact performance
+      if ('serviceWorker' in navigator) {
+        // Use requestIdleCallback to register SW when browser is idle
+        const registerSW = () => {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            .catch(() => {});
+        };
+        
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(registerSW, { timeout: 5000 });
+        } else {
+          setTimeout(registerSW, 3000);
+        }
+      }
+    </script>
+    
+    <!-- Noscript fallback -->
+    <noscript>
+      <style>
+        #root:empty::before, #root:empty::after { display: none; }
+      </style>
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f8f9fb; font-family: Inter, sans-serif; text-align: center; padding: 20px;">
+        <svg width="64" height="64" viewBox="0 0 512 512" style="margin-bottom: 20px;">
+          <rect width="512" height="512" rx="100" fill="#22c55e"/>
+          <g transform="translate(100, 80) scale(1.6)">
+            <path fill="#ffffff" d="M140 20c-20 0-80 40-80 100s40 80 80 80c0-40 0-80 20-100s60-20 60-20c0-40-40-60-80-60z"/>
+          </g>
+        </svg>
+        <h1 style="color: #1e293b; font-size: 24px; margin-bottom: 10px;">AgriSense</h1>
+        <p style="color: #64748b; font-size: 16px; max-width: 400px;">
+          JavaScript is required to run this application. Please enable JavaScript in your browser settings to use AgriSense.
+        </p>
+      </div>
+    </noscript>
   </body>
 </html>

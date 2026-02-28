@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtualenvs
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Demo test sets and large model artifacts
+/backend/models/demo_test_set*
+/backend/models/Final Models/
+/backend/models/agrisense_models*
+/backend/models/figures/
+/backend/models/*.ipynb
+
+# ChromaDB Vector Store
+vector_store/
+*.sqlite3
+*.parquet
+
+# Model files
+*.h5
+*.keras
+*.pb
+*.onnx
+
+# IDEs, logs, OS
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db
+
+# temp files from local tools
+tmpclaude*

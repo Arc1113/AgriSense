@@ -1,0 +1,94 @@
+{
+  "config": "rag_full",
+  "timestamp": "2026-02-27T14:47:41.396079",
+  "total_cases": 10,
+  "valid_cases": 10,
+  "error_cases": 0,
+  "aggregate_metrics": {
+    "grounded_response_rate": 0.0,
+    "citation_precision_mean": 0,
+    "hallucination_rate": 0.0,
+    "keyword_hit_rate_mean": 0.38,
+    "pass_rate": 0.5
+  },
+  "latency": {
+    "total": {
+      "mean": 3691.2,
+      "p50": 891.0,
+      "p95": 29022.7,
+      "min": 350.7,
+      "max": 29022.7
+    },
+    "retrieval": {
+      "mean": 45.7,
+      "p50": 18.7,
+      "p95": 288.9,
+      "min": 16.2,
+      "max": 288.9
+    },
+    "rerank": {
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "generation": {
+      "mean": 867.7,
+      "p50": 865.1,
+      "p95": 1937.7,
+      "min": 0.0,
+      "max": 1937.7
+    }
+  },
+  "per_disease": {
+    "Bacterial Spot": {
+      "n": 10,
+      "pass": 5,
+      "hal": 0,
+      "grounded": 0,
+      "pass_rate": 0.5,
+      "khr_mean": 0.38,
+      "hal_rate": 0.0,
+      "grr": 0.0
+    }
+  },
+  "per_category": {
+    "treatment": {
+      "n": 3,
+      "pass": 3,
+      "pass_rate": 1.0,
+      "khr_mean": 0.6667
+    },
+    "prevention": {
+      "n": 2,
+      "pass": 0,
+      "pass_rate": 0.0,
+      "khr_mean": 0.125
+    },
+    "diagnosis": {
+      "n": 2,
+      "pass": 0,
+      "pass_rate": 0.0,
+      "khr_mean": 0.0
+    },
+    "weather_aware": {
+      "n": 1,
+      "pass": 0,
+      "pass_rate": 0.0,
+      "khr_mean": 0.25
+    },
+    "management": {
+      "n": 1,
+      "pass": 1,
+      "pass_rate": 1.0,
+      "khr_mean": 0.5
+    },
+    "safety": {
+      "n": 1,
+      "pass": 1,
+      "pass_rate": 1.0,
+      "khr_mean": 0.8
+    }
+  }
+}

@@ -1,0 +1,929 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "description": "Gold-standard evaluation dataset for AgriSense RAG pipeline. 100 test cases (10 per disease class + 10 for Healthy). Each case has a user query, the correct disease, expected keywords that MUST appear in a good answer, and hallucination keywords that must NOT appear.",
+    "diseases": [
+      "Bacterial Spot",
+      "Early Blight",
+      "Late Blight",
+      "Leaf Mold",
+      "Septoria Leaf Spot",
+      "Spider Mites",
+      "Target Spot",
+      "Yellow Leaf Curl Virus",
+      "Mosaic Virus",
+      "Healthy"
+    ],
+    "total_cases": 100,
+    "metrics": [
+      "grounded_response_rate",
+      "citation_precision",
+      "hallucination_rate",
+      "latency_p50_p95",
+      "ablation_reranker",
+      "ablation_rag_vs_llm_only"
+    ]
+  },
+  "test_cases": [
+    {
+      "id": "BS01",
+      "disease": "Bacterial Spot",
+      "query": "My tomato leaves have small dark spots with yellow halos. What treatment should I use?",
+      "expected_keywords": ["copper", "bactericide", "bacterial", "remove infected"],
+      "hallucination_keywords": ["fungicide", "chlorothalonil", "mancozeb"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "BS02",
+      "disease": "Bacterial Spot",
+      "query": "How do I prevent bacterial spot in my tomato garden?",
+      "expected_keywords": ["copper", "resistant varieties", "crop rotation", "avoid overhead irrigation"],
+      "hallucination_keywords": ["fungicide", "systemic fungicide"],
+      "expected_severity": "Medium",
+      "category": "prevention"
+    },
+    {
+      "id": "BS03",
+      "disease": "Bacterial Spot",
+      "query": "What are the symptoms of bacterial spot on tomatoes?",
+      "expected_keywords": ["spots", "lesion", "leaves", "fruit", "water-soaked"],
+      "hallucination_keywords": ["concentric rings", "powdery"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "BS04",
+      "disease": "Bacterial Spot",
+      "query": "It's rainy season and my tomatoes have bacterial spot. What should I do?",
+      "expected_keywords": ["copper", "drainage", "humidity", "remove"],
+      "hallucination_keywords": ["fungicide", "chlorothalonil"],
+      "expected_severity": "High",
+      "category": "weather_aware"
+    },
+    {
+      "id": "BS05",
+      "disease": "Bacterial Spot",
+      "query": "Can I use fungicides for bacterial spot on tomato?",
+      "expected_keywords": ["copper", "bactericide", "not fungicide", "bacterial"],
+      "hallucination_keywords": [],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "BS06",
+      "disease": "Bacterial Spot",
+      "query": "What copper products work best for tomato bacterial spot?",
+      "expected_keywords": ["copper hydroxide", "copper", "spray", "interval"],
+      "hallucination_keywords": ["mancozeb alone", "propiconazole"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "BS07",
+      "disease": "Bacterial Spot",
+      "query": "Should I remove infected tomato plants with bacterial spot?",
+      "expected_keywords": ["remove", "infected", "destroy", "sanitation"],
+      "hallucination_keywords": ["keep plant", "fungicide will cure"],
+      "expected_severity": "High",
+      "category": "management"
+    },
+    {
+      "id": "BS08",
+      "disease": "Bacterial Spot",
+      "query": "How does bacterial spot spread in tomato fields?",
+      "expected_keywords": ["rain splash", "wind", "contaminated", "seed", "water"],
+      "hallucination_keywords": ["soil fungus", "airborne spores"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "BS09",
+      "disease": "Bacterial Spot",
+      "query": "What resistant tomato varieties are available for bacterial spot?",
+      "expected_keywords": ["resistant", "varieties", "tolerance"],
+      "hallucination_keywords": ["immune", "no varieties exist"],
+      "expected_severity": "Low",
+      "category": "prevention"
+    },
+    {
+      "id": "BS10",
+      "disease": "Bacterial Spot",
+      "query": "My bacterial spot infection is severe. Safety precautions when spraying copper?",
+      "expected_keywords": ["gloves", "PPE", "protective", "copper", "safety"],
+      "hallucination_keywords": [],
+      "expected_severity": "High",
+      "category": "safety"
+    },
+    {
+      "id": "EB01",
+      "disease": "Early Blight",
+      "query": "My tomato leaves have brown spots with concentric rings. How do I treat this?",
+      "expected_keywords": ["chlorothalonil", "mancozeb", "fungicide", "early blight", "Alternaria"],
+      "hallucination_keywords": ["virus", "no chemical cure", "whitefly"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "EB02",
+      "disease": "Early Blight",
+      "query": "What fungicide should I spray for early blight?",
+      "expected_keywords": ["chlorothalonil", "mancozeb", "azoxystrobin", "fungicide", "spray"],
+      "hallucination_keywords": ["copper only", "bactericide", "insecticide"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "EB03",
+      "disease": "Early Blight",
+      "query": "How to prevent early blight in tomatoes?",
+      "expected_keywords": ["rotation", "mulch", "spacing", "resistant", "fungicide"],
+      "hallucination_keywords": ["virus control", "whitefly control"],
+      "expected_severity": "Low",
+      "category": "prevention"
+    },
+    {
+      "id": "EB04",
+      "disease": "Early Blight",
+      "query": "It's hot and humid. My tomatoes have early blight. What should I do?",
+      "expected_keywords": ["fungicide", "humidity", "ventilation", "remove lower leaves"],
+      "hallucination_keywords": ["insecticide", "virus"],
+      "expected_severity": "High",
+      "category": "weather_aware"
+    },
+    {
+      "id": "EB05",
+      "disease": "Early Blight",
+      "query": "What causes early blight in tomatoes?",
+      "expected_keywords": ["Alternaria", "fungus", "solani", "moisture", "lower leaves"],
+      "hallucination_keywords": ["bacteria", "virus", "whitefly"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "EB06",
+      "disease": "Early Blight",
+      "query": "Dosage of mancozeb for early blight treatment on tomatoes?",
+      "expected_keywords": ["mancozeb", "spray", "interval", "dosage"],
+      "hallucination_keywords": ["copper sulfate only", "bactericide"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "EB07",
+      "disease": "Early Blight",
+      "query": "Can I still eat tomatoes affected by early blight?",
+      "expected_keywords": ["remove", "affected", "fruit", "safe"],
+      "hallucination_keywords": ["toxic", "highly poisonous"],
+      "expected_severity": "Low",
+      "category": "safety"
+    },
+    {
+      "id": "EB08",
+      "disease": "Early Blight",
+      "query": "Early blight is spreading fast in my greenhouse. Emergency treatment?",
+      "expected_keywords": ["fungicide", "remove infected", "ventilation", "spacing"],
+      "hallucination_keywords": ["insecticide", "nematicide"],
+      "expected_severity": "High",
+      "category": "treatment"
+    },
+    {
+      "id": "EB09",
+      "disease": "Early Blight",
+      "query": "Organic treatment options for early blight?",
+      "expected_keywords": ["neem", "organic", "copper", "biological", "compost"],
+      "hallucination_keywords": ["synthetic only", "no organic options"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "EB10",
+      "disease": "Early Blight",
+      "query": "How does early blight differ from late blight on tomatoes?",
+      "expected_keywords": ["concentric", "Alternaria", "lower leaves", "slower"],
+      "hallucination_keywords": ["identical", "same pathogen"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "LB01",
+      "disease": "Late Blight",
+      "query": "My tomato plant has water-soaked lesions turning brown. Is this late blight?",
+      "expected_keywords": ["Phytophthora", "late blight", "water-soaked", "fungicide", "metalaxyl"],
+      "hallucination_keywords": ["virus", "insect", "whitefly"],
+      "expected_severity": "High",
+      "category": "diagnosis"
+    },
+    {
+      "id": "LB02",
+      "disease": "Late Blight",
+      "query": "Emergency treatment for late blight outbreak in my tomato field?",
+      "expected_keywords": ["metalaxyl", "mancozeb", "chlorothalonil", "destroy infected", "fungicide"],
+      "hallucination_keywords": ["insecticide", "virus", "no treatment needed"],
+      "expected_severity": "High",
+      "category": "treatment"
+    },
+    {
+      "id": "LB03",
+      "disease": "Late Blight",
+      "query": "How to prevent late blight in the wet season?",
+      "expected_keywords": ["drainage", "fungicide", "preventive", "spacing", "resistant"],
+      "hallucination_keywords": ["insecticide", "heat treatment"],
+      "expected_severity": "High",
+      "category": "prevention"
+    },
+    {
+      "id": "LB04",
+      "disease": "Late Blight",
+      "query": "What is the best fungicide for Phytophthora infestans on tomatoes?",
+      "expected_keywords": ["metalaxyl", "mancozeb", "Phytophthora", "systemic", "contact"],
+      "hallucination_keywords": ["bactericide only", "insecticide"],
+      "expected_severity": "High",
+      "category": "treatment"
+    },
+    {
+      "id": "LB05",
+      "disease": "Late Blight",
+      "query": "Late blight symptoms on tomato leaves and fruit?",
+      "expected_keywords": ["water-soaked", "brown", "white", "mold", "fruit", "rapid"],
+      "hallucination_keywords": ["concentric rings", "slow progression"],
+      "expected_severity": "High",
+      "category": "diagnosis"
+    },
+    {
+      "id": "LB06",
+      "disease": "Late Blight",
+      "query": "Can late blight spread from potato to tomato?",
+      "expected_keywords": ["Phytophthora", "potato", "related", "solanaceae", "spread"],
+      "hallucination_keywords": ["cannot spread", "different pathogen"],
+      "expected_severity": "High",
+      "category": "diagnosis"
+    },
+    {
+      "id": "LB07",
+      "disease": "Late Blight",
+      "query": "It's been raining for days and my tomatoes show late blight signs. Help!",
+      "expected_keywords": ["fungicide", "drainage", "remove", "rain", "moisture"],
+      "hallucination_keywords": ["insecticide", "wait for dry weather only"],
+      "expected_severity": "High",
+      "category": "weather_aware"
+    },
+    {
+      "id": "LB08",
+      "disease": "Late Blight",
+      "query": "Should I destroy my entire tomato crop if late blight is found?",
+      "expected_keywords": ["remove", "infected", "destroy", "prevent spread", "fungicide"],
+      "hallucination_keywords": ["keep all plants", "no action needed"],
+      "expected_severity": "High",
+      "category": "management"
+    },
+    {
+      "id": "LB09",
+      "disease": "Late Blight",
+      "query": "Safety precautions when spraying metalaxyl for late blight?",
+      "expected_keywords": ["gloves", "mask", "PPE", "protective", "interval"],
+      "hallucination_keywords": [],
+      "expected_severity": "High",
+      "category": "safety"
+    },
+    {
+      "id": "LB10",
+      "disease": "Late Blight",
+      "query": "Organic control methods for late blight?",
+      "expected_keywords": ["copper", "organic", "biological", "resistant", "cultural"],
+      "hallucination_keywords": ["no organic options exist"],
+      "expected_severity": "High",
+      "category": "treatment"
+    },
+    {
+      "id": "LM01",
+      "disease": "Leaf Mold",
+      "query": "Yellow patches on top of tomato leaves with olive-green mold underneath. Treatment?",
+      "expected_keywords": ["leaf mold", "fungicide", "ventilation", "humidity", "Passalora"],
+      "hallucination_keywords": ["virus", "insecticide", "bacteria"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "LM02",
+      "disease": "Leaf Mold",
+      "query": "How to manage leaf mold in a greenhouse tomato crop?",
+      "expected_keywords": ["ventilation", "humidity", "spacing", "fungicide", "air circulation"],
+      "hallucination_keywords": ["insecticide", "virus control"],
+      "expected_severity": "Medium",
+      "category": "management"
+    },
+    {
+      "id": "LM03",
+      "disease": "Leaf Mold",
+      "query": "What causes tomato leaf mold?",
+      "expected_keywords": ["Passalora", "Fulvia", "Cladosporium", "humidity", "fungus"],
+      "hallucination_keywords": ["bacteria", "virus", "insect"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "LM04",
+      "disease": "Leaf Mold",
+      "query": "Fungicide recommendations for tomato leaf mold?",
+      "expected_keywords": ["fungicide", "chlorothalonil", "mancozeb", "spray"],
+      "hallucination_keywords": ["insecticide", "no treatment"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "LM05",
+      "disease": "Leaf Mold",
+      "query": "It's very humid and my greenhouse tomatoes have leaf mold. Urgent advice?",
+      "expected_keywords": ["ventilation", "reduce humidity", "fungicide", "spacing"],
+      "hallucination_keywords": ["increase watering", "insecticide"],
+      "expected_severity": "High",
+      "category": "weather_aware"
+    },
+    {
+      "id": "LM06",
+      "disease": "Leaf Mold",
+      "query": "How to prevent leaf mold on tomatoes?",
+      "expected_keywords": ["ventilation", "spacing", "humidity", "resistant", "air"],
+      "hallucination_keywords": ["insecticide", "virus"],
+      "expected_severity": "Low",
+      "category": "prevention"
+    },
+    {
+      "id": "LM07",
+      "disease": "Leaf Mold",
+      "query": "Can leaf mold infect tomato fruits?",
+      "expected_keywords": ["leaves", "severe", "fruit", "yield"],
+      "hallucination_keywords": ["only affects roots"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "LM08",
+      "disease": "Leaf Mold",
+      "query": "Resistant tomato varieties for leaf mold?",
+      "expected_keywords": ["resistant", "varieties", "Cf genes"],
+      "hallucination_keywords": ["no resistant varieties"],
+      "expected_severity": "Low",
+      "category": "prevention"
+    },
+    {
+      "id": "LM09",
+      "disease": "Leaf Mold",
+      "query": "How does leaf mold spread?",
+      "expected_keywords": ["spores", "air", "humidity", "wind", "moisture"],
+      "hallucination_keywords": ["soil-borne only", "insect vector"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "LM10",
+      "disease": "Leaf Mold",
+      "query": "Safety tips when treating leaf mold with chemical fungicides?",
+      "expected_keywords": ["PPE", "gloves", "mask", "safety", "protective"],
+      "hallucination_keywords": [],
+      "expected_severity": "Medium",
+      "category": "safety"
+    },
+    {
+      "id": "SL01",
+      "disease": "Septoria Leaf Spot",
+      "query": "Small circular spots with dark borders and gray centers on tomato lower leaves. What is it?",
+      "expected_keywords": ["Septoria", "leaf spot", "fungicide", "lower leaves", "circular"],
+      "hallucination_keywords": ["virus", "insect", "bacteria"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "SL02",
+      "disease": "Septoria Leaf Spot",
+      "query": "How do I treat septoria leaf spot on tomatoes?",
+      "expected_keywords": ["chlorothalonil", "mancozeb", "fungicide", "remove lower leaves"],
+      "hallucination_keywords": ["insecticide", "virus control", "no treatment"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "SL03",
+      "disease": "Septoria Leaf Spot",
+      "query": "Prevention strategies for septoria leaf spot?",
+      "expected_keywords": ["crop rotation", "mulch", "spacing", "sanitation", "fungicide"],
+      "hallucination_keywords": ["insecticide", "virus"],
+      "expected_severity": "Low",
+      "category": "prevention"
+    },
+    {
+      "id": "SL04",
+      "disease": "Septoria Leaf Spot",
+      "query": "Septoria leaf spot is severe after heavy rains. Emergency treatment?",
+      "expected_keywords": ["fungicide", "remove", "rain", "drainage", "defoliation"],
+      "hallucination_keywords": ["insecticide", "no action"],
+      "expected_severity": "High",
+      "category": "weather_aware"
+    },
+    {
+      "id": "SL05",
+      "disease": "Septoria Leaf Spot",
+      "query": "What causes Septoria lycopersici on tomatoes?",
+      "expected_keywords": ["Septoria", "fungus", "moisture", "spores", "lycopersici"],
+      "hallucination_keywords": ["bacteria", "virus"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "SL06",
+      "disease": "Septoria Leaf Spot",
+      "query": "Can septoria leaf spot kill my tomato plants?",
+      "expected_keywords": ["defoliation", "yield", "weaken", "severe"],
+      "hallucination_keywords": ["harmless", "no effect"],
+      "expected_severity": "High",
+      "category": "diagnosis"
+    },
+    {
+      "id": "SL07",
+      "disease": "Septoria Leaf Spot",
+      "query": "How often should I spray fungicide for septoria leaf spot?",
+      "expected_keywords": ["interval", "7-10 days", "spray", "schedule", "fungicide"],
+      "hallucination_keywords": ["once is enough", "insecticide"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "SL08",
+      "disease": "Septoria Leaf Spot",
+      "query": "Organic treatment for septoria leaf spot?",
+      "expected_keywords": ["copper", "neem", "organic", "biological", "cultural"],
+      "hallucination_keywords": ["no organic options"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "SL09",
+      "disease": "Septoria Leaf Spot",
+      "query": "How does septoria spread in tomato fields?",
+      "expected_keywords": ["rain splash", "water", "spores", "debris", "wind"],
+      "hallucination_keywords": ["insect vector", "soil only"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "SL10",
+      "disease": "Septoria Leaf Spot",
+      "query": "Safety precautions when handling tomato plants with septoria leaf spot?",
+      "expected_keywords": ["gloves", "sanitation", "tools", "wash", "protective"],
+      "hallucination_keywords": [],
+      "expected_severity": "Medium",
+      "category": "safety"
+    },
+    {
+      "id": "SM01",
+      "disease": "Spider Mites",
+      "query": "Tiny yellow dots on tomato leaves and fine webbing underneath. Treatment?",
+      "expected_keywords": ["mite", "acaricide", "miticide", "abamectin", "neem", "water spray"],
+      "hallucination_keywords": ["fungicide", "bactericide", "chlorothalonil"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "SM02",
+      "disease": "Spider Mites",
+      "query": "How to control spider mites on tomatoes?",
+      "expected_keywords": ["miticide", "acaricide", "predatory", "water spray", "neem"],
+      "hallucination_keywords": ["fungicide", "copper spray"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "SM03",
+      "disease": "Spider Mites",
+      "query": "What causes spider mite outbreaks on tomatoes?",
+      "expected_keywords": ["hot", "dry", "dusty", "Tetranychus", "mite"],
+      "hallucination_keywords": ["fungus", "bacteria", "wet conditions"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "SM04",
+      "disease": "Spider Mites",
+      "query": "It's very hot and dry. My tomatoes have spider mites. What should I do?",
+      "expected_keywords": ["water spray", "humidity", "miticide", "hot", "dry"],
+      "hallucination_keywords": ["fungicide", "chlorothalonil"],
+      "expected_severity": "High",
+      "category": "weather_aware"
+    },
+    {
+      "id": "SM05",
+      "disease": "Spider Mites",
+      "query": "Biological control for spider mites on tomatoes?",
+      "expected_keywords": ["predatory", "Phytoseiulus", "biological", "natural enemy", "ladybug"],
+      "hallucination_keywords": ["no biological options", "fungicide"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "SM06",
+      "disease": "Spider Mites",
+      "query": "How do I identify spider mites on tomato plants?",
+      "expected_keywords": ["webbing", "stippling", "yellow", "tiny", "underside"],
+      "hallucination_keywords": ["large insect", "visible to naked eye easily"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "SM07",
+      "disease": "Spider Mites",
+      "query": "Can spider mites kill tomato plants?",
+      "expected_keywords": ["defoliation", "severe", "yield loss", "weaken"],
+      "hallucination_keywords": ["harmless", "no damage"],
+      "expected_severity": "High",
+      "category": "diagnosis"
+    },
+    {
+      "id": "SM08",
+      "disease": "Spider Mites",
+      "query": "Prevention methods for spider mites?",
+      "expected_keywords": ["humidity", "dust control", "predators", "monitoring", "water"],
+      "hallucination_keywords": ["fungicide prevention", "copper spray"],
+      "expected_severity": "Low",
+      "category": "prevention"
+    },
+    {
+      "id": "SM09",
+      "disease": "Spider Mites",
+      "query": "What acaricide dosage for two-spotted spider mites on tomatoes?",
+      "expected_keywords": ["acaricide", "abamectin", "dosage", "spray", "mite"],
+      "hallucination_keywords": ["fungicide", "bactericide"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "SM10",
+      "disease": "Spider Mites",
+      "query": "Safety precautions when using miticides on tomato crops?",
+      "expected_keywords": ["PPE", "gloves", "mask", "re-entry", "safety"],
+      "hallucination_keywords": [],
+      "expected_severity": "Medium",
+      "category": "safety"
+    },
+    {
+      "id": "TS01",
+      "disease": "Target Spot",
+      "query": "My tomato leaves have circular brown spots with concentric rings. Is this target spot?",
+      "expected_keywords": ["target spot", "Corynespora", "cassiicola", "fungicide"],
+      "hallucination_keywords": ["virus", "bacteria", "insect"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "TS02",
+      "disease": "Target Spot",
+      "query": "How to treat target spot disease on tomatoes?",
+      "expected_keywords": ["fungicide", "chlorothalonil", "azoxystrobin", "remove"],
+      "hallucination_keywords": ["insecticide", "virus", "no treatment"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "TS03",
+      "disease": "Target Spot",
+      "query": "What fungicide is best for Corynespora cassiicola on tomatoes?",
+      "expected_keywords": ["azoxystrobin", "chlorothalonil", "difenoconazole", "fungicide"],
+      "hallucination_keywords": ["bactericide", "insecticide"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "TS04",
+      "disease": "Target Spot",
+      "query": "It's warm and humid. My tomatoes have target spot. Advice?",
+      "expected_keywords": ["fungicide", "humidity", "ventilation", "remove infected"],
+      "hallucination_keywords": ["insecticide", "virus"],
+      "expected_severity": "High",
+      "category": "weather_aware"
+    },
+    {
+      "id": "TS05",
+      "disease": "Target Spot",
+      "query": "How to prevent target spot on tomatoes?",
+      "expected_keywords": ["rotation", "spacing", "sanitation", "resistant", "mulch"],
+      "hallucination_keywords": ["insecticide", "virus control"],
+      "expected_severity": "Low",
+      "category": "prevention"
+    },
+    {
+      "id": "TS06",
+      "disease": "Target Spot",
+      "query": "What causes target spot in tomatoes?",
+      "expected_keywords": ["Corynespora", "cassiicola", "fungus", "moisture"],
+      "hallucination_keywords": ["bacteria", "virus", "insect"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "TS07",
+      "disease": "Target Spot",
+      "query": "Can target spot affect tomato fruits?",
+      "expected_keywords": ["fruit", "lesion", "yield", "quality"],
+      "hallucination_keywords": ["leaves only", "no fruit damage"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "TS08",
+      "disease": "Target Spot",
+      "query": "How does target spot spread?",
+      "expected_keywords": ["spores", "rain", "wind", "debris", "moisture"],
+      "hallucination_keywords": ["insect vector only", "soil-borne only"],
+      "expected_severity": "Medium",
+      "category": "diagnosis"
+    },
+    {
+      "id": "TS09",
+      "disease": "Target Spot",
+      "query": "Organic control options for target spot?",
+      "expected_keywords": ["copper", "neem", "organic", "cultural", "biological"],
+      "hallucination_keywords": ["no organic options"],
+      "expected_severity": "Medium",
+      "category": "treatment"
+    },
+    {
+      "id": "TS10",
+      "disease": "Target Spot",
+      "query": "Safety when spraying fungicides for target spot in a greenhouse?",
+      "expected_keywords": ["ventilation", "PPE", "gloves", "mask", "safety"],
+      "hallucination_keywords": [],
+      "expected_severity": "Medium",
+      "category": "safety"
+    },
+    {
+      "id": "YL01",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "My tomato leaves are curling upward and turning yellow. What treatment?",
+      "expected_keywords": ["virus", "no chemical cure", "remove infected", "whitefly", "resistant"],
+      "hallucination_keywords": ["fungicide", "chlorothalonil", "mancozeb", "spray will cure"],
+      "expected_severity": "High",
+      "category": "treatment"
+    },
+    {
+      "id": "YL02",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "How to control TYLCV in tomatoes?",
+      "expected_keywords": ["whitefly", "remove", "resistant varieties", "insect control", "no cure"],
+      "hallucination_keywords": ["fungicide", "chemical cure"],
+      "expected_severity": "High",
+      "category": "treatment"
+    },
+    {
+      "id": "YL03",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "What causes tomato yellow leaf curl virus?",
+      "expected_keywords": ["Bemisia", "whitefly", "TYLCV", "begomovirus", "vector"],
+      "hallucination_keywords": ["fungus", "bacteria", "soil-borne"],
+      "expected_severity": "High",
+      "category": "diagnosis"
+    },
+    {
+      "id": "YL04",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "Can I use fungicide to treat yellow leaf curl virus?",
+      "expected_keywords": ["no", "virus", "no chemical cure", "whitefly control", "remove"],
+      "hallucination_keywords": ["fungicide will help", "chlorothalonil recommended"],
+      "expected_severity": "High",
+      "category": "treatment"
+    },
+    {
+      "id": "YL05",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "How to prevent TYLCV from spreading in my field?",
+      "expected_keywords": ["whitefly", "netting", "reflective mulch", "remove infected", "resistant"],
+      "hallucination_keywords": ["fungicide prevention", "copper spray"],
+      "expected_severity": "High",
+      "category": "prevention"
+    },
+    {
+      "id": "YL06",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "My whitefly population is high and tomatoes show TYLCV symptoms. Help!",
+      "expected_keywords": ["whitefly", "insecticide", "imidacloprid", "remove infected", "sticky traps"],
+      "hallucination_keywords": ["fungicide", "mancozeb"],
+      "expected_severity": "High",
+      "category": "weather_aware"
+    },
+    {
+      "id": "YL07",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "Resistant tomato varieties for TYLCV?",
+      "expected_keywords": ["resistant", "Ty genes", "varieties", "tolerant"],
+      "hallucination_keywords": ["no resistant varieties", "fungicide instead"],
+      "expected_severity": "Medium",
+      "category": "prevention"
+    },
+    {
+      "id": "YL08",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "Should I remove tomato plants infected with yellow leaf curl virus?",
+      "expected_keywords": ["yes", "remove", "destroy", "prevent spread", "virus source"],
+      "hallucination_keywords": ["keep plant", "fungicide will cure"],
+      "expected_severity": "High",
+      "category": "management"
+    },
+    {
+      "id": "YL09",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "How do whiteflies transmit TYLCV to tomatoes?",
+      "expected_keywords": ["Bemisia", "tabaci", "feeding", "persistent", "transmit", "vector"],
+      "hallucination_keywords": ["soil contact", "rain splash"],
+      "expected_severity": "High",
+      "category": "diagnosis"
+    },
+    {
+      "id": "YL10",
+      "disease": "Yellow Leaf Curl Virus",
+      "query": "Insecticide safety when controlling whiteflies for TYLCV management?",
+      "expected_keywords": ["PPE", "gloves", "mask", "safety", "insecticide"],
+      "hallucination_keywords": [],
+      "expected_severity": "High",
+      "category": "safety"
+    },
+    {
+      "id": "MV01",
+      "disease": "Mosaic Virus",
+      "query": "My tomato leaves have a mosaic pattern of light and dark green. Treatment?",
+      "expected_keywords": ["virus", "no chemical cure", "remove infected", "mosaic", "sanitation"],
+      "hallucination_keywords": ["fungicide", "chlorothalonil", "spray will cure"],
+      "expected_severity": "High",
+      "category": "treatment"
+    },
+    {
+      "id": "MV02",
+      "disease": "Mosaic Virus",
+      "query": "How to manage tomato mosaic virus in my crop?",
+      "expected_keywords": ["remove infected", "sanitation", "resistant", "no cure", "disinfect"],
+      "hallucination_keywords": ["fungicide", "chemical treatment"],
+      "expected_severity": "High",
+      "category": "management"
+    },
+    {
+      "id": "MV03",
+      "disease": "Mosaic Virus",
+      "query": "What causes mosaic virus in tomatoes?",
+      "expected_keywords": ["TMV", "ToMV", "tobamovirus", "virus", "mechanical", "contact"],
+      "hallucination_keywords": ["fungus", "bacteria", "soil fungus"],
+      "expected_severity": "High",
+      "category": "diagnosis"
+    },
+    {
+      "id": "MV04",
+      "disease": "Mosaic Virus",
+      "query": "Can mosaic virus be cured with any chemical?",
+      "expected_keywords": ["no cure", "no chemical", "virus", "remove", "prevent"],
+      "hallucination_keywords": ["fungicide cure", "copper will treat", "spray treatment"],
+      "expected_severity": "High",
+      "category": "treatment"
+    },
+    {
+      "id": "MV05",
+      "disease": "Mosaic Virus",
+      "query": "How to prevent mosaic virus from spreading to other plants?",
+      "expected_keywords": ["disinfect", "tools", "hands", "sanitation", "remove infected", "milk"],
+      "hallucination_keywords": ["fungicide", "copper spray prevention"],
+      "expected_severity": "High",
+      "category": "prevention"
+    },
+    {
+      "id": "MV06",
+      "disease": "Mosaic Virus",
+      "query": "How does TMV spread in tomato fields?",
+      "expected_keywords": ["contact", "mechanical", "tools", "hands", "seed", "stable"],
+      "hallucination_keywords": ["insect vector only", "soil fungus"],
+      "expected_severity": "High",
+      "category": "diagnosis"
+    },
+    {
+      "id": "MV07",
+      "disease": "Mosaic Virus",
+      "query": "Resistant tomato varieties for mosaic virus?",
+      "expected_keywords": ["resistant", "Tm genes", "varieties", "tolerance"],
+      "hallucination_keywords": ["no resistant varieties exist"],
+      "expected_severity": "Medium",
+      "category": "prevention"
+    },
+    {
+      "id": "MV08",
+      "disease": "Mosaic Virus",
+      "query": "My tomatoes have mosaic virus and it's spreading fast. Emergency advice?",
+      "expected_keywords": ["remove", "destroy", "disinfect", "isolate", "no cure"],
+      "hallucination_keywords": ["fungicide", "emergency spray"],
+      "expected_severity": "High",
+      "category": "management"
+    },
+    {
+      "id": "MV09",
+      "disease": "Mosaic Virus",
+      "query": "Can I still harvest fruit from mosaic virus infected tomato plants?",
+      "expected_keywords": ["fruit", "quality", "reduced", "safe", "edible"],
+      "hallucination_keywords": ["toxic", "highly dangerous to eat"],
+      "expected_severity": "Medium",
+      "category": "safety"
+    },
+    {
+      "id": "MV10",
+      "disease": "Mosaic Virus",
+      "query": "How to disinfect tools after handling mosaic virus infected plants?",
+      "expected_keywords": ["disinfect", "bleach", "milk", "trisodium phosphate", "tools"],
+      "hallucination_keywords": ["water only", "no disinfection needed"],
+      "expected_severity": "Medium",
+      "category": "safety"
+    },
+    {
+      "id": "HE01",
+      "disease": "Healthy",
+      "query": "My tomato plant looks completely healthy. Any maintenance tips?",
+      "expected_keywords": ["healthy", "monitor", "preventive", "fertilizer", "water"],
+      "hallucination_keywords": ["disease detected", "treatment needed", "infected"],
+      "expected_severity": "None",
+      "category": "maintenance"
+    },
+    {
+      "id": "HE02",
+      "disease": "Healthy",
+      "query": "No disease detected on my tomato. How to keep it healthy?",
+      "expected_keywords": ["healthy", "rotation", "spacing", "nutrition", "water"],
+      "hallucination_keywords": ["disease", "treatment", "fungicide needed"],
+      "expected_severity": "None",
+      "category": "maintenance"
+    },
+    {
+      "id": "HE03",
+      "disease": "Healthy",
+      "query": "Plant is healthy. Best practices for tomato growing in humid conditions?",
+      "expected_keywords": ["ventilation", "spacing", "mulch", "preventive", "monitor"],
+      "hallucination_keywords": ["disease detected", "infected"],
+      "expected_severity": "None",
+      "category": "weather_aware"
+    },
+    {
+      "id": "HE04",
+      "disease": "Healthy",
+      "query": "My tomato scan shows healthy. Preventive measures for the rainy season?",
+      "expected_keywords": ["drainage", "fungicide preventive", "mulch", "monitoring"],
+      "hallucination_keywords": ["disease treatment", "infected"],
+      "expected_severity": "None",
+      "category": "prevention"
+    },
+    {
+      "id": "HE05",
+      "disease": "Healthy",
+      "query": "Healthy tomato plant. What fertilizer schedule do you recommend?",
+      "expected_keywords": ["fertilizer", "NPK", "nutrient", "schedule", "healthy"],
+      "hallucination_keywords": ["disease", "fungicide", "infected"],
+      "expected_severity": "None",
+      "category": "maintenance"
+    },
+    {
+      "id": "HE06",
+      "disease": "Healthy",
+      "query": "Tomato is healthy. How to maximize fruit yield?",
+      "expected_keywords": ["pruning", "staking", "fertilizer", "water", "sunlight"],
+      "hallucination_keywords": ["disease", "treatment needed"],
+      "expected_severity": "None",
+      "category": "maintenance"
+    },
+    {
+      "id": "HE07",
+      "disease": "Healthy",
+      "query": "No disease found. When should I start preventive fungicide spraying?",
+      "expected_keywords": ["preventive", "schedule", "fungicide", "before symptoms"],
+      "hallucination_keywords": ["disease detected", "treatment urgently needed"],
+      "expected_severity": "None",
+      "category": "prevention"
+    },
+    {
+      "id": "HE08",
+      "disease": "Healthy",
+      "query": "Healthy plant. How to prepare for dry season tomato growing?",
+      "expected_keywords": ["irrigation", "mulch", "water", "shade", "spider mite monitoring"],
+      "hallucination_keywords": ["disease detected", "infected"],
+      "expected_severity": "None",
+      "category": "weather_aware"
+    },
+    {
+      "id": "HE09",
+      "disease": "Healthy",
+      "query": "Healthy tomato. Best companion plants for pest prevention?",
+      "expected_keywords": ["companion", "basil", "marigold", "pest", "beneficial"],
+      "hallucination_keywords": ["disease treatment", "fungicide treatment"],
+      "expected_severity": "None",
+      "category": "prevention"
+    },
+    {
+      "id": "HE10",
+      "disease": "Healthy",
+      "query": "My tomato crop is healthy. Post-harvest handling tips?",
+      "expected_keywords": ["harvest", "storage", "handling", "temperature", "quality"],
+      "hallucination_keywords": ["disease", "infected", "treatment"],
+      "expected_severity": "None",
+      "category": "maintenance"
+    }
+  ]
+}

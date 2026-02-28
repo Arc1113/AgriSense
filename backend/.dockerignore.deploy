@@ -1,0 +1,91 @@
+# =============================================================================
+# .dockerignore for RAG-only deployment (Dockerfile.deploy)
+# Excludes ML model weights to keep the image lean (~1.5 GB)
+# =============================================================================
+
+# Python cache
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Environment files (injected via docker-compose / cloud config)
+.env
+.env.local
+.env.example
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache
+.coverage
+htmlcov/
+
+# Logs
+*.log
+server_log.txt
+
+# Git
+.git
+.gitignore
+
+# Jupyter
+.ipynb_checkpoints
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# =============================================================================
+# ML Model Files — NOT needed for RAG-only deployment
+# =============================================================================
+
+# TensorFlow / Keras weights
+*.h5
+*.keras
+*.pb
+*.tflite
+models/mobilenetv2/
+models/resnet50/
+Final Models/
+
+# YOLO / ONNX weights
+*.onnx
+*.pt
+models/YoloV8/
+
+# Large notebook & figure files
+models/*.ipynb
+models/figures/
+models/Agrisense_Results/
+models/demo_test_set*
+models/agrisense_models*/
+
+# ESP32 sketch (not needed server-side)
+esp32_cam_sketch/
+
+# Documentation (not needed in image)
+*.md
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb/*.md
+
+# Test scripts not needed in prod image
+test_*.py
+quick_test.py
+verify_rag.py
+convert_to_tflite.py
+generate_paper_figures.py

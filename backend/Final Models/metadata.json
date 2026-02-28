@@ -1,0 +1,40 @@
+{
+  "project": "AgriSense - Tomato Disease Detection",
+  "models": {
+    "resnet50": {
+      "total_params": 24773770,
+      "trainable_params": 16162570
+    },
+    "mobilenetv2": {
+      "total_params": 3050826,
+      "trainable_params": 2317386
+    }
+  },
+  "input_shape": [
+    224,
+    224,
+    3
+  ],
+  "preprocessing": {
+    "resnet50": "tf.keras.applications.resnet50.preprocess_input",
+    "mobilenetv2": "tf.keras.applications.mobilenet_v2.preprocess_input"
+  },
+  "training_info": {
+    "fine_tuned": true,
+    "epochs_initial": 25,
+    "epochs_finetuning": 15
+  },
+  "num_classes": 10,
+  "class_names": [
+    "Tomato___Bacterial_spot",
+    "Tomato___Early_blight",
+    "Tomato___Late_blight",
+    "Tomato___Leaf_Mold",
+    "Tomato___Septoria_leaf_spot",
+    "Tomato___Spider_mites Two-spotted_spider_mite",
+    "Tomato___Target_Spot",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "Tomato___Tomato_mosaic_virus",
+    "Tomato___healthy"
+  ]
+}

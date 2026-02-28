@@ -1,0 +1,180 @@
+INFO:crewai.cli.config:Using config path: C:\Users\LENOVO\.config\crewai\settings.json
+INFO:     Started server process [22172]
+INFO:     Waiting for application startup.
+INFO:AgriSense:\U0001f331 AgriSense API starting up...
+INFO:AgriSense:\U0001f4e6 Loading ML models...
+INFO:VisionEngine:\U0001f504 Loading mobilenet model from: c:\Users\LENOVO\AgriSense\backend\models\mobilenetv2\mobilenetv2_finetuned.h5
+INFO:VisionEngine:\u2705 mobilenet model loaded in 1.91s
+INFO:VisionEngine:   Input shape: (None, 224, 224, 3)
+INFO:VisionEngine:   Output shape: (None, 10)
+INFO:VisionEngine:\U0001f504 Loading resnet model from: c:\Users\LENOVO\AgriSense\backend\models\resnet50\resnet50_finetuned.h5
+INFO:VisionEngine:\u2705 resnet model loaded in 1.85s
+INFO:VisionEngine:   Input shape: (None, 224, 224, 3)
+INFO:VisionEngine:   Output shape: (None, 10)
+INFO:AgriSense:   mobilenet: \u2705 Loaded
+INFO:AgriSense:   resnet: \u2705 Loaded
+INFO:AgriSense:\U0001f50d Initializing RAG pipeline...
+INFO:RAGAgent:\U0001f50d Initializing Industry-Standard Markdown RAG Pipeline...
+INFO:MarkdownRAG:\U0001f9e0 Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+INFO:MarkdownRAG:\U0001f504 Loading cross-encoder reranker...
+INFO:sentence_transformers.cross_encoder.CrossEncoder:Use pytorch device: cpu
+INFO:MarkdownRAG:\u2705 Cross-encoder reranker ready
+INFO:RAGAgent:\U0001f4da Using Markdown knowledge base (Industry Standard)
+c:\Users\LENOVO\AgriSense\backend\markdown_rag_pipeline.py:539: LangChainDeprecationWarning: The class `Chroma` was deprecated in LangChain 0.2.9 and will be removed in 1.0. An updated version of the class exists in the `langchain-chroma package and should be used instead. To use it run `pip install -U `langchain-chroma` and import as `from `langchain_chroma import Chroma``.
+  self.vectorstore = _Chroma(
+INFO:MarkdownRAG:\u2705 Loaded vector store with 1597 chunks
+INFO:RAGAgent:\u2705 RAG Pipeline ready with 1597 chunks
+INFO:RAGAgent:   Reranker: \u2705 Active
+INFO:RAGAgent:   Format: markdown
+INFO:AgriSense:\u2705 RAG Pipeline ready with 1597 chunks
+INFO:AgriSense:   Reranker: \u2705 Active
+INFO:AgriSense:   Format: markdown
+INFO:AgriSense:\U0001f680 AgriSense API ready to serve requests
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:AgriSense:GET /health | Status: 200 | Duration: 6.10ms
+INFO:     127.0.0.1:62442 - "GET /health HTTP/1.1" 200 OK
+INFO:AgriSense:POST /advice | Status: 404 | Duration: 2.00ms
+INFO:     127.0.0.1:63479 - "POST /advice HTTP/1.1" 404 Not Found
+INFO:AgriSense:GET /openapi.json | Status: 200 | Duration: 96.22ms
+INFO:     127.0.0.1:63495 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:AgriSense:GET /health | Status: 200 | Duration: 1.51ms
+INFO:     127.0.0.1:64185 - "GET /health HTTP/1.1" 200 OK
+INFO:AgriSense:GET /models/status | Status: 200 | Duration: 1.27ms
+INFO:     127.0.0.1:58408 - "GET /models/status HTTP/1.1" 200 OK
+INFO:AgriSense:POST /predict | Status: 422 | Duration: 22.62ms
+INFO:     127.0.0.1:50993 - "POST /predict HTTP/1.1" 422 Unprocessable Entity
+INFO:AgriSense:Processing image: test_leaf.jpg (1.4KB)
+INFO:AgriSense:\U0001f324\ufe0f Auto-fetching weather for Manila (default)...
+INFO:WeatherService:Using default location: Manila (default)
+INFO:WeatherService:\U0001f324\ufe0f Fetching weather forecast for Manila (default)...
+INFO:WeatherService:Formatted forecast: Mon: Cloudy, Tue: Cloudy, Wed: Cloudy, Thu: Cloudy, Fri: Cloudy, Sat: Cloudy, Sun: Cloudy...
+INFO:WeatherService:\u2705 Weather data retrieved: Current=Cloudy, Forecast=Mon: Cloudy, Tue: Cloudy, Wed: Cloudy, Thu: Cloudy...
+INFO:AgriSense:   \u2705 Current weather: Cloudy
+INFO:AgriSense:   \u2705 Forecast retrieved
+INFO:VisionEngine:\U0001f3af Prediction: Late Blight (78.30%) in 2840.4ms
+INFO:AgriSense:\U0001f52c Prediction: Late Blight (78.30%)
+INFO:AgriSense:\U0001f916 Generating treatment advice with weather context...
+INFO:RAGAgent:\U0001f331 Generating treatment advice for: Late Blight
+INFO:RAGAgent:\U0001f324\ufe0f  Weather condition: Cloudy
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  1.04it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  1.04it/s]
+INFO:MarkdownRAG:\u2705 Retrieved 5 results (reranked=True)
+INFO:RAGAgent:\u2705 Retrieved 5 documents with reranking for context injection
+INFO:RAGAgent:\U0001f9e0 Initializing Groq LLM (llama-3.1-8b-instant)
+INFO:RAGAgent:\u23f3 Executing crew (30s timeout)...
+[92m10:27:33 - LiteLLM:INFO[0m: utils.py:3296 - 
+LiteLLM completion() model= llama-3.1-8b-instant; provider = groq
+INFO:LiteLLM:
+LiteLLM completion() model= llama-3.1-8b-instant; provider = groq
+[92m10:27:35 - LiteLLM:INFO[0m: utils.py:1262 - Wrapper: Completed Call, calling success_handler
+INFO:LiteLLM:Wrapper: Completed Call, calling success_handler
+INFO:RAGAgent:\u2705 Advice generated in 3.26s (RAG: ON)
+INFO:AgriSense:POST /predict | Status: 200 | Duration: 8223.00ms
+INFO:     127.0.0.1:63116 - "POST /predict?model=mobile HTTP/1.1" 200 OK
+[92m10:27:35 - LiteLLM:ERROR[0m: litellm_logging.py:4483 - Error creating standard logging object - Missing dependency No module named 'apscheduler'. Run `pip install 'litellm[proxy]'`
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\proxy_server.py", line 78, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 4370, in get_standard_logging_object_payload
+    clean_metadata = StandardLoggingPayloadSetup.get_standard_logging_metadata(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 3921, in get_standard_logging_metadata
+    cold_storage_object_key = StandardLoggingPayloadSetup._generate_cold_storage_object_key(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 4109, in _generate_cold_storage_object_key
+    configured_cold_storage_logger = ColdStorageHandler._get_configured_cold_storage_custom_logger()
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\spend_tracking\cold_storage_handler.py", line 67, in _get_configured_cold_storage_custom_logger
+    from litellm.proxy.proxy_server import general_settings
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\proxy_server.py", line 80, in <module>
+    raise ImportError(f"Missing dependency {e}. Run `pip install 'litellm[proxy]'`")
+ImportError: Missing dependency No module named 'apscheduler'. Run `pip install 'litellm[proxy]'`
+ERROR:LiteLLM:Error creating standard logging object - Missing dependency No module named 'apscheduler'. Run `pip install 'litellm[proxy]'`
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\proxy_server.py", line 78, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 4370, in get_standard_logging_object_payload
+    clean_metadata = StandardLoggingPayloadSetup.get_standard_logging_metadata(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 3921, in get_standard_logging_metadata
+    cold_storage_object_key = StandardLoggingPayloadSetup._generate_cold_storage_object_key(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 4109, in _generate_cold_storage_object_key
+    configured_cold_storage_logger = ColdStorageHandler._get_configured_cold_storage_custom_logger()
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\spend_tracking\cold_storage_handler.py", line 67, in _get_configured_cold_storage_custom_logger
+    from litellm.proxy.proxy_server import general_settings
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\proxy_server.py", line 80, in <module>
+    raise ImportError(f"Missing dependency {e}. Run `pip install 'litellm[proxy]'`")
+ImportError: Missing dependency No module named 'apscheduler'. Run `pip install 'litellm[proxy]'`
+[92m10:27:36 - LiteLLM:ERROR[0m: litellm_logging.py:4483 - Error creating standard logging object - Missing dependency No module named 'apscheduler'. Run `pip install 'litellm[proxy]'`
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\proxy_server.py", line 78, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 4370, in get_standard_logging_object_payload
+    clean_metadata = StandardLoggingPayloadSetup.get_standard_logging_metadata(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 3921, in get_standard_logging_metadata
+    cold_storage_object_key = StandardLoggingPayloadSetup._generate_cold_storage_object_key(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 4109, in _generate_cold_storage_object_key
+    configured_cold_storage_logger = ColdStorageHandler._get_configured_cold_storage_custom_logger()
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\spend_tracking\cold_storage_handler.py", line 67, in _get_configured_cold_storage_custom_logger
+    from litellm.proxy.proxy_server import general_settings
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\proxy_server.py", line 80, in <module>
+    raise ImportError(f"Missing dependency {e}. Run `pip install 'litellm[proxy]'`")
+ImportError: Missing dependency No module named 'apscheduler'. Run `pip install 'litellm[proxy]'`
+ERROR:LiteLLM:Error creating standard logging object - Missing dependency No module named 'apscheduler'. Run `pip install 'litellm[proxy]'`
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\proxy_server.py", line 78, in <module>
+    from apscheduler.schedulers.asyncio import AsyncIOScheduler
+ModuleNotFoundError: No module named 'apscheduler'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 4370, in get_standard_logging_object_payload
+    clean_metadata = StandardLoggingPayloadSetup.get_standard_logging_metadata(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 3921, in get_standard_logging_metadata
+    cold_storage_object_key = StandardLoggingPayloadSetup._generate_cold_storage_object_key(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 4109, in _generate_cold_storage_object_key
+    configured_cold_storage_logger = ColdStorageHandler._get_configured_cold_storage_custom_logger()
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\spend_tracking\cold_storage_handler.py", line 67, in _get_configured_cold_storage_custom_logger
+    from litellm.proxy.proxy_server import general_settings
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\proxy\proxy_server.py", line 80, in <module>
+    raise ImportError(f"Missing dependency {e}. Run `pip install 'litellm[proxy]'`")
+ImportError: Missing dependency No module named 'apscheduler'. Run `pip install 'litellm[proxy]'`
+ERROR:crewai.telemetry.telemetry:HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Max retries exceeded with url: /v1/traces (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000268006948F0>, 'Connection to telemetry.crewai.com timed out. (connect timeout=30)'))
+ERROR:crewai.telemetry.telemetry:HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Max retries exceeded with url: /v1/traces (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000026800652F90>, 'Connection to telemetry.crewai.com timed out. (connect timeout=30)'))
+INFO:AgriSense:Processing image: test_leaf.jpg (1.4KB)
+INFO:AgriSense:\U0001f324\ufe0f Auto-fetching weather for Manila (default)...
+INFO:WeatherService:Using default location: Manila (default)
+INFO:WeatherService:\U0001f4e6 Using cached forecast for Manila (default)
+INFO:AgriSense:   \u2705 Current weather: Cloudy
+INFO:AgriSense:   \u2705 Forecast retrieved
+INFO:VisionEngine:\U0001f3af Prediction: Late Blight (78.30%) in 188.5ms
+INFO:AgriSense:\U0001f52c Prediction: Late Blight (78.30%)
+INFO:AgriSense:\U0001f916 Generating treatment advice with weather context...
+INFO:RAGAgent:\U0001f4e6 Returning cached advice for: Late Blight
+INFO:AgriSense:POST /predict | Status: 200 | Duration: 1958.14ms
+INFO:     127.0.0.1:57080 - "POST /predict?model=mobile HTTP/1.1" 200 OK

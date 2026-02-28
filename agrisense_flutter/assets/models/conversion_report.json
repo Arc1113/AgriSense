@@ -1,0 +1,155 @@
+{
+  "conversion_timestamp": "2026-02-26T13:02:42",
+  "tensorflow_version": "2.20.0",
+  "input_shape": [
+    224,
+    224,
+    3
+  ],
+  "num_classes": 10,
+  "calibration_samples": 200,
+  "models": {
+    "mobilenetv2": {
+      "fp32": {
+        "filename": "mobilenetv2_fp32.tflite",
+        "size_bytes": 12014956,
+        "size_mb": 11.46,
+        "md5": "86ad91e1462d79e347479e921007fb2f",
+        "validation": {
+          "input_shape": [
+            1,
+            224,
+            224,
+            3
+          ],
+          "input_dtype": "<class 'numpy.float32'>",
+          "output_shape": [
+            10
+          ],
+          "output_dtype": "<class 'numpy.float32'>",
+          "output_sum": 1.0,
+          "num_classes": 10,
+          "valid": true
+        },
+        "valid": true
+      },
+      "float16": {
+        "filename": "mobilenetv2_float16.tflite",
+        "size_bytes": 6035708,
+        "size_mb": 5.76,
+        "md5": "f78aafd4943569d795648a292699e287",
+        "validation": {
+          "input_shape": [
+            1,
+            224,
+            224,
+            3
+          ],
+          "input_dtype": "<class 'numpy.float32'>",
+          "output_shape": [
+            10
+          ],
+          "output_dtype": "<class 'numpy.float32'>",
+          "output_sum": 0.9999999403953552,
+          "num_classes": 10,
+          "valid": true
+        },
+        "valid": true
+      },
+      "int8": {
+        "filename": "mobilenetv2_int8.tflite",
+        "size_bytes": 3502648,
+        "size_mb": 3.34,
+        "md5": "4032fa67bd61488f7ba3cdbf5d256307",
+        "validation": {
+          "input_shape": [
+            1,
+            224,
+            224,
+            3
+          ],
+          "input_dtype": "<class 'numpy.float32'>",
+          "output_shape": [
+            10
+          ],
+          "output_dtype": "<class 'numpy.float32'>",
+          "output_sum": 1.0,
+          "num_classes": 10,
+          "valid": true
+        },
+        "valid": true
+      }
+    },
+    "resnet50": {
+      "fp32": {
+        "filename": "resnet50_fp32.tflite",
+        "size_bytes": 98691444,
+        "size_mb": 94.12,
+        "md5": "ac873d0166c087a17bcd0d337ec3e335",
+        "validation": {
+          "input_shape": [
+            1,
+            224,
+            224,
+            3
+          ],
+          "input_dtype": "<class 'numpy.float32'>",
+          "output_shape": [
+            10
+          ],
+          "output_dtype": "<class 'numpy.float32'>",
+          "output_sum": 1.0,
+          "num_classes": 10,
+          "valid": true
+        },
+        "valid": true
+      },
+      "float16": {
+        "filename": "resnet50_float16.tflite",
+        "size_bytes": 49376664,
+        "size_mb": 47.09,
+        "md5": "f76b2cdff6eb005061896dd1f3145e29",
+        "validation": {
+          "input_shape": [
+            1,
+            224,
+            224,
+            3
+          ],
+          "input_dtype": "<class 'numpy.float32'>",
+          "output_shape": [
+            10
+          ],
+          "output_dtype": "<class 'numpy.float32'>",
+          "output_sum": 1.0,
+          "num_classes": 10,
+          "valid": true
+        },
+        "valid": true
+      },
+      "int8": {
+        "filename": "resnet50_int8.tflite",
+        "size_bytes": 25432624,
+        "size_mb": 24.25,
+        "md5": "18f59e2ab7e5dbf78d8e2b3c54355505",
+        "validation": {
+          "input_shape": [
+            1,
+            224,
+            224,
+            3
+          ],
+          "input_dtype": "<class 'numpy.float32'>",
+          "output_shape": [
+            10
+          ],
+          "output_dtype": "<class 'numpy.float32'>",
+          "output_sum": 1.0,
+          "num_classes": 10,
+          "valid": true
+        },
+        "valid": true
+      }
+    }
+  }
+}

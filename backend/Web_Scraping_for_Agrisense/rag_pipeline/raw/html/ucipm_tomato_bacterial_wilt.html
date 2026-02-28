@@ -1,0 +1,211 @@
+<!-- INF10\startRequest.cfm -->
+<!-- page-view-agriculture\index.cfm -->
+<!-- // Debug: ~infVer:10.0.0~/agriculture/tomato/bacterial-wilt~ck:~sk:9~v:0~pk:www~pv:02~tn:viewpage12~tv:2017~tk:1~ -->
+<!-- INF10\header-v4.cfm -->
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,300,100&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css"/>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css"/>
+<link href="/assets_v6/styles/bootstrap-4.css" rel="stylesheet" type="text/css"/>
+<link href="/assets_v6/images/favicon.ico" rel="icon" type="image/png"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://unpkg.com/intercooler@1.2.3/dist/intercooler.js"></script>
+<link href="/assets_v6/fontawesome6_5_1/css/fontawesome.css" rel="stylesheet"/>
+<link href="/assets_v6/fontawesome6_5_1/css/brands.css" rel="stylesheet"/>
+<link href="/assets_v6/fontawesome6_5_1/css/solid.css" rel="stylesheet"/>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NPR7B4');</script>
+<!-- End Google Tag Manager -->
+<script>
+		(function() {
+			var cx = '014616282592139902646:ltwuetmnjdo';
+			var gcse = document.createElement('script');
+			gcse.type = 'text/javascript';
+			gcse.async = true;
+			gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(gcse, s);
+			})();
+	</script>
+<style>	
+		.icon-bar {
+		position: fixed;
+		z-index: 500;
+		top: calc(100vh - (100vh - 40%));
+		right: 0;
+		left: calc(100vw - 105px);
+		width: 140px;
+		-webkit-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+		transform: translateY(-50%);
+		transform: rotate(-90deg);
+		}
+
+		.icon-bar a {
+		display: block;
+		text-align: center;
+		padding: 14px;
+		transition: all 0.3s ease;
+		color: white !important;
+		font-size: 16px;
+		border-bottom: none;
+		}
+		
+		.icon-bar a:hover {
+		background-color: #000;
+		}
+		
+		.pdf {
+		background: #bb0000;
+		color: white;
+		}
+
+		.print {
+		background: #008EAA;
+		color: white;
+		}
+		
+		.feedback {
+		background: #005581;
+		color: white;
+		span{
+			font-size:16px!important;
+		}
+		}
+
+		@media print { 
+			.icon-bar {
+				display: none !important;
+			}
+		}
+	</style>
+<title>UC Statewide IPM Program (UC IPM)</title>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-NPR7B4" style="display:none;visibility:hidden" width="0"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<nav class="navbar fixed-top bg-light">
+<button aria-controls="demoTarget" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#demoTarget" data-toggle="collapse" id="sandwichButton" type="button">
+<i aria-hidden="true" class="fa fa-bars" id="sandwichButtonImage"></i>
+</button>
+<a class="navbar-brand" href="/">
+<img alt="Logo for Statewide Integrated Pest Management Program, University of California Agriculture and Natural Resources Logo" id="CORE_logo" src="/assets_v6/images/logo/header-logo-ipm.svg" width="150px"/>
+</a>
+<div class="collapse navbar-collapse main-nav scroll" id="demoTarget">
+<gcse:search></gcse:search>
+<ul class="navbar-nav mainMenu mr-auto mt-2 mt-lg-0">
+<li class="nav-item">
+<a aria-controls="HGTF" aria-expanded="false" class="nav-link dropdown-toggle audience" data-toggle="collapse" href="#HGTF">Home, Garden, Turf and Landscape</a>
+</li>
+<div class="collapse" id="HGTF">
+<div class="secondary-nav">
+<li><a class="nav-link secondary" href="/home-and-landscape/">Home and Garden</a></li>
+<li><a class="nav-link secondary" href="/home-and-landscape/plant-problem-diagnostic-tool/">Plant Pest Diagnostic Tool</a></li>
+<li><a class="nav-link secondary" href="/home-and-landscape/resources-for-retail-nurseries-and-garden-centers/">Retail Nurseries &amp; Garden Centers </a></li>
+<li><a class="nav-link secondary" href="/home-and-landscape/resources-for-landscape-professionals/">Landscape Professionals</a></li>
+<li><a class="nav-link secondary" href="/home-and-landscape/master-gardeners/">UC Master Gardeners</a></li>
+</div>
+</div>
+<li class="nav-item">
+<a aria-controls="Ag" aria-expanded="false" class="nav-link dropdown-toggle audience" data-toggle="collapse" href="#Ag">Agriculture</a>
+</li>
+<div class="collapse" id="Ag">
+<div class="secondary-nav">
+<li><a class="nav-link secondary" href="/agriculture/">Pest Management Guidelines</a></li>
+<li><a class="nav-link secondary" href="/agriculture/decision-support-tool/">Decision Support Tool</a></li>
+<li><a class="nav-link secondary" href="/WEATHER/index.html">Weather, Models &amp; Degree-Days</a></li>
+</div>
+</div>
+<li class="nav-item">
+<a class="nav-link audience" href="/invasive-and-exotic-pests/">Invasive and Exotic Pests</a>
+</li>
+<li class="nav-item">
+<a class="nav-link audience" href="/NATURAL/index.html">Natural Environments</a>
+</li>
+<div class="secondary-nav">
+<li class="nav-item">
+<a aria-controls="UCIPM" aria-expanded="false" class="nav-link dropdown-toggle sub-menu secondary-link" data-toggle="collapse" href="#UCIPM">About UC IPM</a>
+</li>
+<div class="collapse" id="UCIPM">
+<div class="secondary-sub-nav">
+<li><a class="nav-link" href="/IPMPROJECT/about.html">What We Do</a></li>
+<li><a class="nav-link" href="/strategic-plan/">Strategic Plan 2015–2025</a></li>
+<li><a class="nav-link" href="/highlights/">Annual Report</a></li>
+<li><a class="nav-link" href="/IPMPROJECT/programs.html">UC IPM Programs</a></li>
+<li><a class="nav-link" href="/IPMPROJECT/programreview.html">Program Review</a></li>
+</div>
+</div>
+<li class="nav-item">
+<a aria-controls="Galleries" aria-expanded="false" class="nav-link dropdown-toggle sub-menu secondary-link" data-toggle="collapse" href="#Galleries">Galleries</a>
+</li>
+<div class="collapse" id="Galleries">
+<div class="secondary-sub-nav">
+<li><a class="nav-link" href="/IPMPROJECT/videolibrary.html">Video Gallery</a></li>
+<li><a class="nav-link" href="/PMG/weeds_intro.html">Weed Gallery</a></li>
+<li><a class="nav-link" href="/natural-enemies/">Natural Enemies Gallery</a></li>
+</div>
+</div>
+<li><a class="nav-link secondary secondary-link" href="/PMG/glossary.html">Glossary</a></li>
+<li><a class="nav-link secondary secondary-link" href="/GENERAL/links.html">Links</a></li>
+<li><a class="nav-link secondary secondary-link" href="/IPMPROJECT/pubsmenu.html">Publications and Newsletters</a></li>
+<li><a class="nav-link secondary secondary-link" href="/GENERAL/pesticides.html">Pesticide Information</a></li>
+<li class="nav-item">
+<a aria-controls="Tools" aria-expanded="false" class="nav-link dropdown-toggle sub-menu secondary-link" data-toggle="collapse" href="#Tools">Tools</a>
+</li>
+<div class="collapse" id="Tools">
+<div class="secondary-sub-nav">
+<li><a class="nav-link" href="/bee-precaution-pesticide-ratings/">Bee precaution pesticide ratings</a></li>
+<li><a class="nav-link" href="/agriculture/decision-support-tool/">Decision Support Tool</a></li>
+<li><a class="nav-link" href="/home-and-landscape/plant-problem-diagnostic-tool/">Plant Problem Diagnostic Tool</a></li>
+<li><a class="nav-link" href="/home-and-landscape/seasonal-landscape-ipm-checklist/">Seasonal Landscape IPM Checklist</a></li>
+<li><a class="nav-link" href="/WEATHER/index.html">Weather, models, &amp; degree-days</a></li>
+</div>
+</div>
+<li><a class="nav-link secondary secondary-link" href="/IPMPROJECT/workshops.html">Trainings and Events</a></li>
+<li><a class="nav-link secondary secondary-link" href="/what-is-ipm/">What is IPM</a></li>
+<li><a class="nav-link secondary secondary-link" href="/IPMPROJECT/recursos-espanol.html"><span lang="es">Recursos en español<span></span></span></a></li>
+</div>
+</ul>
+</div>
+</nav>
+<div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade" id="imageDisplayModal" role="dialog" tabindex="-1">
+<div class="vertical-alignment-helper">
+<div class="modal-dialog vertical-align-center" style="margin-top:50px;">
+<div class="modal-header" style="background-color:white; border-bottom-width:0px;">
+<h5 class="modal-title" id="myLargeModalLabel" style="color:black; font-weight:bolder;"> </h5>
+<button aria-label="close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-content" style="border-radius:0px; border-bottom-width:1px; border-top-width:1px; border-left-width:0px; border-right-width:0px; padding-top:5px; padding-bottom:5px; border-bottom-color:rgb(235, 235, 235); border-top-color:rgb(235, 235, 235);">
+<img alt="modal image place holder" class="mx-auto img-fluid" id="modalImage" src=""/>
+</div>
+<div class="modal-footer" style="background-color:white; border-bottom-width:0px;">
+<a href="" id="modalImagePageLink" onclick="" target="_blank">Image information and credit</a>
+</div>
+</div>
+</div>
+</div>
+<div aria-hidden="true" aria-labelledby="ModalScrollableSurvey" class="modal fade" id="surveyModal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header" style="margin-right:20px;">
+<h3 class="modal-title" id="ModalScrollableSurvey">Feedback</h3>
+<button aria-label="Close" class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true" style="font-size:24px;">×</span>
+</button>
+</div>
+<div class="modal-body">
+<iframe allowfullscreen="" height="1000px" id="modalIFrameSurvey" src="" style="width: 100% !important; max-width: 100% !important; visibility: visible !important; opacity: 1 !important;" title="Survey"></iframe>
+</div>
+</div>
+</div>
+</div>
+<div id="ae-chatbot-widget"></div>
+<br/>
+<h1>No record found. Page not published.</h1>
+</body></html>

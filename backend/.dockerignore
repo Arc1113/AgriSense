@@ -1,0 +1,45 @@
+# Python cache
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Environment files
+.env
+.env.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Git
+.git
+.gitignore
+
+# Jupyter
+.ipynb_checkpoints
+
+# Distribution
+dist/
+build/
+*.egg-info/

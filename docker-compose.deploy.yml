@@ -1,0 +1,40 @@
+# =============================================================================
+# AgriSense RAG-Only Deployment — Docker Compose
+# =============================================================================
+# Usage:
+#   docker compose -f docker-compose.deploy.yml up --build
+#
+# Deploys only the backend (RAG agent + weather). No frontend, no ML models.
+# The Flutter mobile app connects directly to the backend via HTTPS.
+# =============================================================================
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.deploy
+    container_name: agrisense-rag
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    environment:
+      - DEPLOY_MODE=rag_only
+      - PYTHONUNBUFFERED=1
+    networks:
+      - agrisense-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1536M    # 1.5 GB cap — sufficient for RAG-only
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 120s
+
+networks:
+  agrisense-network:
+    driver: bridge
