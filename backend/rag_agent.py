@@ -116,8 +116,9 @@ def _init_rag_sync():
     try:
         logger.info("🔍 Initializing Industry-Standard Markdown RAG Pipeline...")
         _rag_init_info["stage"] = "creating_pipeline"
+        persist_dir = os.environ.get("RAG_VECTOR_STORE_PATH", "./vector-store")
         pipeline = MarkdownRAGPipeline(
-            persist_directory="./vector-store",
+            persist_directory=persist_dir,
             collection_name="agrisense_v2",
             chunk_size=800,
             chunk_overlap=150,

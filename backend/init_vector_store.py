@@ -21,6 +21,7 @@ Options:
 import sys
 import argparse
 import logging
+import os
 from pathlib import Path
 
 from markdown_rag_pipeline import MarkdownRAGPipeline
@@ -104,8 +105,9 @@ def main():
     md_kb_path = Path(__file__).parent / "Web_Scraping_for_Agrisense" / "rag_pipeline" / "processed" / "markdown_kb"
     json_fallback = Path(__file__).parent / "Web_Scraping_for_Agrisense" / "rag_pipeline" / "processed" / "rag_json" / "rag_documents.json"
     
+    persist_dir = os.environ.get("RAG_VECTOR_STORE_PATH", "./vector-store")
     pipeline = MarkdownRAGPipeline(
-        persist_directory="./vector-store",
+        persist_directory=persist_dir,
         collection_name="agrisense_v2",
         chunk_size=800,
         chunk_overlap=150,
