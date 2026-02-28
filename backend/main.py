@@ -502,6 +502,74 @@ async def debug_rag_stats():
         return JSONResponse(status_code=500, content={"error": str(e)})
 
 
+@app.get("/debug/inspect_vector_store", tags=["Health"])
+async def debug_inspect_vector_store():
+    """Temporary debug endpoint: try to load Chroma directly and return exception text.
+
+    This endpoint attempts to instantiate the production `IndustryVectorStore` and
+    —if loading fails— directly constructs a `Chroma` instance to capture the
+    underlying exception message. It also lists files under `/app/vector_store`.
+    """
+    result = {
+        "vector_store_path": "/app/vector_store",
+        "files": None,
+        "load_result": None,
+        "direct_chroma_error": None,
+    }
+
+    # List files under the mounted vector_store
+    try:
+        import os
+        mount_path = "/app/vector_store"
+        if os.path.exists(mount_path) and os.path.isdir(mount_path):
+            files = []
+            for root, dirs, files_list in os.walk(mount_path):
+                for f in files_list:
+                    rel = os.path.relpath(os.path.join(root, f), mount_path)
+                    files.append(rel)
+            result["files"] = files
+        else:
+            result["files"] = []
+    except Exception as e:
+        result["files"] = {"error": str(e)}
+
+    # Try to load via IndustryVectorStore first to follow runtime behavior
+    try:
+        from markdown_rag_pipeline import IndustryVectorStore
+
+        ivs = IndustryVectorStore(persist_directory="/app/vector_store", collection_name="agrisense_v2")
+        try:
+            ok = ivs.load_existing()
+            result["load_result"] = {"loaded": bool(ok), "collection_name": ivs.collection_name}
+            if ok and getattr(ivs, "vectorstore", None):
+                try:
+                    cnt = ivs.vectorstore._collection.count()
+                    result["load_result"]["count"] = int(cnt)
+                except Exception:
+                    result["load_result"]["count"] = None
+        except Exception as e:
+            result["load_result"] = {"error": str(e)}
+
+        # If load_existing returned False, attempt to instantiate Chroma directly
+        if not result.get("load_result") or not result["load_result"].get("loaded"):
+            try:
+                # Lazy import Chroma from langchain_community
+                from langchain_community.vectorstores import Chroma
+                ch = Chroma(persist_directory="/app/vector_store", embedding_function=ivs.embeddings, collection_name=ivs.collection_name)
+                try:
+                    cnt = ch._collection.count()
+                    result["direct_chroma_error"] = {"loaded": True, "count": int(cnt)}
+                except Exception:
+                    result["direct_chroma_error"] = {"loaded": True, "count": None}
+            except Exception as e:
+                result["direct_chroma_error"] = {"error": str(e)}
+
+    except Exception as e:
+        result["load_result"] = {"error": str(e)}
+
+    return JSONResponse(status_code=200, content=result)
+
+
 @app.get("/classes", tags=["Info"])
 async def get_classes():
     """
