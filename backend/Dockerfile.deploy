@@ -18,30 +18,26 @@ COPY requirements-deploy.txt .
 
 RUN pip install --upgrade pip
 
-# PyTorch CPU-only (needed by sentence-transformers for RAG embeddings + reranking)
-RUN pip install --no-cache-dir --timeout=1000 \
-    torch==2.6.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
-
 # Install remaining deps
 RUN pip install --no-cache-dir --timeout=1000 -r requirements-deploy.txt
 
-# Pre-download embedding & reranker models (avoids cold-start delay)
-RUN python - <<'PY'
-from sentence_transformers import SentenceTransformer
-from sentence_transformers.cross_encoder import CrossEncoder
+# Copy only runtime code required for RAG-only mode
+COPY main.py .
+COPY rag_agent.py .
+COPY markdown_rag_pipeline.py .
+COPY vector_store_manager.py .
+COPY weather_service.py .
+COPY app ./app
 
-print("Downloading embedding model...")
-SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-
-print("Downloading cross-encoder reranker...")
-CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
-PY
-
-# Copy only the code & knowledge base (ML models excluded via .dockerignore)
-COPY . .
+# Keep minimal KB fallback data (used if vector_store volume is empty)
+COPY Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb ./Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb
+COPY Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/rag_documents.json ./Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/rag_documents.json
 
 # Force RAG-only mode
 ENV DEPLOY_MODE=rag_only
+ENV RAG_ENABLE_RERANKING=false
+ENV RAG_EMBEDDINGS_PROVIDER=fastembed
+ENV RAG_FASTEMBED_MODEL=BAAI/bge-small-en-v1.5
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000

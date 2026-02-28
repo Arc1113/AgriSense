@@ -14,10 +14,7 @@ class ApiService {
   final String baseUrl;
 
   ApiService({String? baseUrl})
-      : baseUrl = baseUrl ??
-            (AppConstants.useDeployedBackend
-                ? AppConstants.deployedApiUrl
-                : AppConstants.defaultApiUrl);
+      : baseUrl = baseUrl ?? AppConstants.apiBaseUrl;
 
   /// Health check
   Future<bool> checkHealth() async {

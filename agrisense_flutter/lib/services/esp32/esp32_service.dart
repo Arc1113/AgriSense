@@ -85,6 +85,9 @@ class ScanResult {
 ///
 /// Handles: connection, motor control, auto-scan, WebSocket events.
 class ESP32Service extends ChangeNotifier {
+  static const String _roboticsDisabledMessage =
+      'ESP32 robotics is disabled for this app build.';
+
   // Connection
   String _esp32Ip = '192.168.1.100';
   int _esp32Port = 80;
@@ -115,7 +118,18 @@ class ESP32Service extends ChangeNotifier {
   StreamSubscription? _wsSubscription;
 
   // Backend URL
-  String get _apiBase => AppConstants.defaultApiUrl;
+  String get _apiBase => AppConstants.apiBaseUrl;
+
+  bool get _isRoboticsEnabled => AppConstants.enableRobotics;
+
+  bool _markRoboticsDisabled() {
+    _connectionError = _roboticsDisabledMessage;
+    _isConnected = false;
+    _scanState = ScanState.idle;
+    _disconnectWebSocket();
+    notifyListeners();
+    return false;
+  }
 
   // === Getters ===
   String get esp32Ip => _esp32Ip;
@@ -185,6 +199,10 @@ class ESP32Service extends ChangeNotifier {
 
   // === Status Check ===
   Future<void> checkStatus() async {
+    if (!_isRoboticsEnabled) {
+      _markRoboticsDisabled();
+      return;
+    }
     try {
       final res = await http
           .get(Uri.parse('$_apiBase/esp32/status'))
@@ -204,6 +222,10 @@ class ESP32Service extends ChangeNotifier {
 
   // === Connection ===
   Future<bool> connect(String ip, {int port = 80}) async {
+    if (!_isRoboticsEnabled) {
+      return _markRoboticsDisabled();
+    }
+
     _esp32Ip = ip;
     _esp32Port = port;
     _connectionError = null;
@@ -238,6 +260,10 @@ class ESP32Service extends ChangeNotifier {
   }
 
   Future<void> disconnect() async {
+    if (!_isRoboticsEnabled) {
+      _markRoboticsDisabled();
+      return;
+    }
     try {
       await http.post(Uri.parse('$_apiBase/esp32/disconnect'));
     } catch (_) {}
@@ -279,6 +305,7 @@ class ESP32Service extends ChangeNotifier {
   }
 
   Future<void> _postMotorCommand(String direction) async {
+    if (!_isRoboticsEnabled) return;
     try {
       await http.post(
         Uri.parse('$_apiBase/esp32/motor'),
@@ -292,6 +319,10 @@ class ESP32Service extends ChangeNotifier {
 
   // === Auto-Scan ===
   Future<void> startAutoScan() async {
+    if (!_isRoboticsEnabled) {
+      _markRoboticsDisabled();
+      return;
+    }
     if (!_isConnected) return;
     _scanResults.clear();
     notifyListeners();
@@ -316,6 +347,10 @@ class ESP32Service extends ChangeNotifier {
   }
 
   Future<void> stopAutoScan() async {
+    if (!_isRoboticsEnabled) {
+      _markRoboticsDisabled();
+      return;
+    }
     try {
       await http.post(Uri.parse('$_apiBase/esp32/scan/stop'));
       _scanState = ScanState.idle;
@@ -325,6 +360,10 @@ class ESP32Service extends ChangeNotifier {
 
   /// Single-shot YOLO detection
   Future<void> singleDetect() async {
+    if (!_isRoboticsEnabled) {
+      _markRoboticsDisabled();
+      return;
+    }
     if (!_isConnected) return;
     try {
       final res = await http.post(Uri.parse('$_apiBase/esp32/detect'));
@@ -342,6 +381,10 @@ class ESP32Service extends ChangeNotifier {
 
   // === WebSocket ===
   void _connectWebSocket() {
+    if (!_isRoboticsEnabled) {
+      _markRoboticsDisabled();
+      return;
+    }
     _disconnectWebSocket();
 
     final wsUrl = _apiBase.replaceFirst('http', 'ws');

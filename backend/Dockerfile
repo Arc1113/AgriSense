@@ -23,18 +23,6 @@ RUN pip install --no-cache-dir --timeout=1000 \
 # Install remaining dependencies
 RUN pip install --no-cache-dir --timeout=1000 -r requirements.txt
 
-# Pre-download models to avoid cold-start during container boot
-RUN python - <<'PY'
-from sentence_transformers import SentenceTransformer
-from sentence_transformers.cross_encoder import CrossEncoder
-
-print('Downloading embedding model...')
-SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-
-print('Downloading cross-encoder reranker...')
-CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
-PY
-
 # Copy application code
 COPY . .
 

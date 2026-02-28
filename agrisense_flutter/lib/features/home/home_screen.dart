@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/constants/app_constants.dart';
 import '../../core/theme/app_theme.dart';
 import '../../services/ml/disease_classifier.dart';
 import '../../services/storage/scan_history_service.dart';
@@ -501,14 +502,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     MaterialPageRoute(builder: (_) => const BenchmarkScreen()),
                   ),
                 ),
-                _buildSmallButton(
-                  icon: Icons.precision_manufacturing_rounded,
-                  label: 'ESP32 Scan',
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const RoboticsScreen()),
+                if (AppConstants.enableRobotics)
+                  _buildSmallButton(
+                    icon: Icons.precision_manufacturing_rounded,
+                    label: 'ESP32 Scan',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const RoboticsScreen()),
+                    ),
                   ),
-                ),
                 _buildSmallButton(
                   icon: Icons.info_outline_rounded,
                   label: 'Models',

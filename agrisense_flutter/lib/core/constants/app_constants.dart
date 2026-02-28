@@ -6,12 +6,22 @@ enum DelegateType { cpu, nnapi }
 
 /// Constants used across the app
 class AppConstants {
-  // API — Change deployedApiUrl to your cloud URL after deployment
-  static const String defaultApiUrl = 'http://10.0.2.2:8000'; // Android emulator localhost
+  // API
+  static const String defaultApiUrl =
+      'https://agrisense-api-jytid2.azurewebsites.net';
   static const String apiUrlIos = 'http://localhost:8000';
-  // TODO: Update this URL after deploying to cloud (e.g., Azure App Service, Render)
-  static const String deployedApiUrl = 'http://10.0.2.2:8000'; // ← replace with production URL
-  static const bool useDeployedBackend = false; // ← set true to use cloud backend
+  static const String deployedApiUrl =
+      'https://agrisense-api-jytid2.azurewebsites.net';
+  static const String apiBaseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: defaultApiUrl,
+  );
+
+  // Feature flags
+  static const bool enableRobotics = bool.fromEnvironment(
+    'ENABLE_ROBOTICS',
+    defaultValue: true,
+  );
 
   // ML Model Configuration
   static const int inputSize = 224;

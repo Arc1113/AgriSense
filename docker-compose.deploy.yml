@@ -10,6 +10,7 @@
 
 services:
   backend:
+    image: agrisense-rag:latest
     build:
       context: ./backend
       dockerfile: Dockerfile.deploy
@@ -21,6 +22,8 @@ services:
     environment:
       - DEPLOY_MODE=rag_only
       - PYTHONUNBUFFERED=1
+    volumes:
+      - ./backend/vector_store:/app/vector_store
     networks:
       - agrisense-network
     restart: unless-stopped

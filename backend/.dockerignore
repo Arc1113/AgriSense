@@ -28,9 +28,11 @@ Thumbs.db
 .pytest_cache
 .coverage
 htmlcov/
+test_*.py
 
 # Logs
 *.log
+server_log.txt
 
 # Git
 .git
@@ -43,3 +45,26 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+# Heavy development/research assets (exclude from image build context)
+eval/
+Final Models/
+esp32_cam_sketch/
+vector_store/
+
+# Keep only runtime model artifacts needed by full mode
+models/*.ipynb
+models/Agrisense_Results/
+models/figures/
+
+# Scraping pipeline artifacts not required at runtime
+Web_Scraping_for_Agrisense/**
+!Web_Scraping_for_Agrisense/rag_pipeline/
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb/
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb/**
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/rag_documents.json
+
+# Local/temp artifacts
+tmpclaude-*-cwd/

@@ -79,6 +79,15 @@ models/agrisense_models*/
 # ESP32 sketch (not needed server-side)
 esp32_cam_sketch/
 
+# Keep only minimal RAG fallback assets from scraping tree
+Web_Scraping_for_Agrisense/**
+!Web_Scraping_for_Agrisense/rag_pipeline/
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb/
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb/**
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/
+!Web_Scraping_for_Agrisense/rag_pipeline/processed/rag_json/rag_documents.json
+
 # Documentation (not needed in image)
 *.md
 !Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb/*.md

@@ -17,10 +17,8 @@ numpy>=1.24.0
 # AI Agents & LLM
 crewai>=0.28.0
 langchain-groq>=0.0.1
-langchain-huggingface>=0.0.1
-sentence-transformers>=2.2.0
 litellm>=1.0.0
-# Note: torch CPU-only is installed separately in Dockerfile.deploy
+fastembed>=0.4.0
 
 # RAG & Vector Store
 langchain>=0.1.0

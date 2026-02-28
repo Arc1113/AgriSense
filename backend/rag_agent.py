@@ -44,9 +44,6 @@ load_dotenv()
 # CrewAI imports
 from crewai import Agent, Task, Crew, Process, LLM
 
-# HuggingFace embeddings for local vector operations (optional, for future RAG features)
-from langchain_huggingface import HuggingFaceEmbeddings
-
 # Industry-Standard Markdown RAG Pipeline (replaces legacy JSON pipeline)
 from markdown_rag_pipeline import MarkdownRAGPipeline
 
@@ -97,28 +94,6 @@ def get_llm() -> LLM:
     
     return _llm_instance
 
-
-# =============================================================================
-# Embeddings Configuration (The Memory)
-# =============================================================================
-
-def get_embeddings():
-    """
-    Initialize HuggingFace embeddings locally.
-    Uses sentence-transformers/all-MiniLM-L6-v2 (~80MB, downloaded on first use)
-    """
-    return HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
-
-
-# Embedder config for CrewAI - prevents OpenAI key prompts
-EMBEDDER_CONFIG = {
-    'provider': 'huggingface',
-    'config': {
-        'model': 'all-MiniLM-L6-v2'
-    }
-}
 
 # Global RAG pipeline instance (industry-standard Markdown-based)
 _rag_pipeline: Optional[MarkdownRAGPipeline] = None
@@ -412,13 +387,12 @@ def get_agri_advice(
         # Create task with retrieved context and forecast
         tasks = create_tasks(advisor, disease_name, weather_condition, retrieved_context, weather_forecast or "")
         
-        # Assemble the Crew with local embeddings
+        # Assemble the Crew
         crew = Crew(
             agents=[advisor],
             tasks=tasks,
             process=Process.sequential,
             verbose=False,
-            embedder=EMBEDDER_CONFIG  # Critical: Uses local HuggingFace embeddings
         )
         
         # Execute the crew with timeout protection (30 seconds max)

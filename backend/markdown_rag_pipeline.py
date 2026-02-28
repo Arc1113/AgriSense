@@ -33,29 +33,39 @@ os.environ["ANONYMIZED_TELEMETRY"] = "False"
 
 # Lazy imports to avoid TensorFlow/spacy/thinc/numpy import chain conflicts
 # Lazy imports to avoid TensorFlow/spacy/thinc/numpy import chain conflicts
-# Only HuggingFace embeddings and Chroma need lazy loading
+# Embeddings + Chroma lazy loading
 _HuggingFaceEmbeddings = None
+_OpenAIEmbeddings = None
+_FastEmbedEmbeddings = None
 _Chroma = None
 _filter_complex_metadata = None
 
 
-def _lazy_imports():
+def _lazy_imports(embedding_provider: str = "huggingface"):
     """Import heavy dependencies on first use to avoid import chain conflicts.
     
     Sets TRANSFORMERS_NO_TF=1 and USE_TF=0 to prevent the transformers library
     from pulling in TensorFlow, which causes deadlocks on this system due to
     the chain: sentence_transformers → transformers → tf_keras → tensorflow.
     """
-    global _HuggingFaceEmbeddings, _Chroma, _filter_complex_metadata
+    global _HuggingFaceEmbeddings, _OpenAIEmbeddings, _FastEmbedEmbeddings, _Chroma, _filter_complex_metadata
     
-    if _HuggingFaceEmbeddings is None:
+    if embedding_provider == "huggingface" and _HuggingFaceEmbeddings is None:
         # Block TF import chain before loading sentence-transformers
         os.environ['TRANSFORMERS_NO_TF'] = '1'
         os.environ['USE_TF'] = '0'
         os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-        
+
         from langchain_huggingface import HuggingFaceEmbeddings
         _HuggingFaceEmbeddings = HuggingFaceEmbeddings
+
+    if embedding_provider == "openai" and _OpenAIEmbeddings is None:
+        from langchain_openai import OpenAIEmbeddings
+        _OpenAIEmbeddings = OpenAIEmbeddings
+
+    if embedding_provider == "fastembed" and _FastEmbedEmbeddings is None:
+        from langchain_community.embeddings import FastEmbedEmbeddings
+        _FastEmbedEmbeddings = FastEmbedEmbeddings
     
     if _Chroma is None:
         from langchain_community.vectorstores import Chroma
@@ -446,7 +456,7 @@ class IndustryVectorStore:
     """
     Production-grade vector store with:
     - ChromaDB persistent storage
-    - HuggingFace local embeddings (no API keys needed)
+    - Pluggable embeddings (HuggingFace, FastEmbed, or OpenAI API)
     - Hybrid retrieval: semantic + metadata filtering
     - Cross-encoder reranking for precision
     - Query expansion for better recall
@@ -459,34 +469,60 @@ class IndustryVectorStore:
         embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2",
     ):
         self.persist_directory = persist_directory
+        self.embedding_provider = os.getenv("RAG_EMBEDDINGS_PROVIDER", "huggingface").lower().strip()
+        if self.embedding_provider not in {"huggingface", "openai", "fastembed"}:
+            logger.warning(
+                f"⚠️ Unknown RAG_EMBEDDINGS_PROVIDER='{self.embedding_provider}', defaulting to huggingface"
+            )
+            self.embedding_provider = "huggingface"
+
         self.collection_name = collection_name
+        if self.embedding_provider == "openai" and collection_name == "agrisense_v2":
+            self.collection_name = "agrisense_openai_v1"
+        if self.embedding_provider == "fastembed" and collection_name == "agrisense_v2":
+            self.collection_name = "agrisense_fastembed_v1"
+        self._reranking_enabled = os.getenv("RAG_ENABLE_RERANKING", "true").lower() in {
+            "1", "true", "yes", "on"
+        }
         
         # Lazy import heavy dependencies
-        _lazy_imports()
-        
-        logger.info(f"🧠 Loading embedding model: {embedding_model}")
-        self.embeddings = _HuggingFaceEmbeddings(
-            model_name=embedding_model,
-            model_kwargs={'device': 'cpu'},
-            encode_kwargs={'normalize_embeddings': True},
-        )
+        _lazy_imports(self.embedding_provider)
+
+        if self.embedding_provider == "openai":
+            openai_model = os.getenv("RAG_OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
+            logger.info(f"🧠 Loading OpenAI embedding model: {openai_model}")
+            self.embeddings = _OpenAIEmbeddings(model=openai_model)
+        elif self.embedding_provider == "fastembed":
+            fastembed_model = os.getenv("RAG_FASTEMBED_MODEL", "BAAI/bge-small-en-v1.5")
+            logger.info(f"🧠 Loading FastEmbed model: {fastembed_model}")
+            self.embeddings = _FastEmbedEmbeddings(model_name=fastembed_model)
+        else:
+            logger.info(f"🧠 Loading HuggingFace embedding model: {embedding_model}")
+            self.embeddings = _HuggingFaceEmbeddings(
+                model_name=embedding_model,
+                model_kwargs={'device': 'cpu'},
+                encode_kwargs={'normalize_embeddings': True},
+            )
         
         self.vectorstore: Optional[Chroma] = None
         self._query_cache: Dict[str, Any] = {}
         
         # Try loading cross-encoder for reranking
         self._reranker = None
-        try:
-            from sentence_transformers import CrossEncoder
-            logger.info("🔄 Loading cross-encoder reranker...")
-            self._reranker = CrossEncoder(
-                'cross-encoder/ms-marco-MiniLM-L-6-v2',
-                max_length=512,
-            )
-            logger.info("✅ Cross-encoder reranker ready")
-        except Exception as e:
-            logger.warning(f"⚠️ Cross-encoder not available: {e}")
-            logger.warning("   Retrieval will work without reranking (slightly lower precision)")
+        if self._reranking_enabled:
+            try:
+                from sentence_transformers import CrossEncoder
+                logger.info("🔄 Loading cross-encoder reranker...")
+                self._reranker = CrossEncoder(
+                    'cross-encoder/ms-marco-MiniLM-L-6-v2',
+                    max_length=512,
+                )
+                logger.info("✅ Cross-encoder reranker ready")
+            except Exception as e:
+                logger.warning(f"⚠️ Cross-encoder not available: {e}")
+                logger.warning("   Retrieval will work without reranking (slightly lower precision)")
+        else:
+            logger.info("⏭️ Reranking disabled by RAG_ENABLE_RERANKING=false")
     
     def build_from_chunks(self, chunks: List[Document]) -> bool:
         """
