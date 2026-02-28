@@ -502,6 +502,50 @@ async def debug_rag_stats():
         return JSONResponse(status_code=500, content={"error": str(e)})
 
 
+@app.get("/debug/try_init_rag", tags=["Health"])
+async def debug_try_init_rag():
+    """Debug endpoint: attempt RAG pipeline init and return full traceback on failure."""
+    import traceback, os
+    result = {
+        "embedding_provider": os.getenv("RAG_EMBEDDINGS_PROVIDER", "huggingface"),
+        "fastembed_model": os.getenv("RAG_FASTEMBED_MODEL", "not set"),
+        "deploy_mode": os.getenv("DEPLOY_MODE", "not set"),
+        "kb_path": "./Web_Scraping_for_Agrisense/rag_pipeline/processed/markdown_kb",
+        "kb_exists": False,
+        "kb_md_count": 0,
+        "vector_store_path": "./vector_store",
+        "vs_exists": False,
+        "pipeline_init": None,
+        "error": None,
+        "traceback": None,
+    }
+    try:
+        from pathlib import Path
+        kb = Path(result["kb_path"])
+        result["kb_exists"] = kb.exists()
+        if kb.exists():
+            result["kb_md_count"] = len(list(kb.glob("*.md")))
+        vs = Path(result["vector_store_path"])
+        result["vs_exists"] = vs.exists()
+    except Exception as e:
+        result["error"] = f"path check: {e}"
+
+    try:
+        from rag_agent import get_rag_pipeline
+        pipeline = get_rag_pipeline()
+        if pipeline:
+            result["pipeline_init"] = "success"
+            result["stats"] = pipeline.get_stats() if hasattr(pipeline, 'get_stats') else {}
+        else:
+            result["pipeline_init"] = "returned None"
+    except Exception as e:
+        result["pipeline_init"] = "exception"
+        result["error"] = str(e)
+        result["traceback"] = traceback.format_exc()
+
+    return JSONResponse(status_code=200, content=result)
+
+
 @app.get("/debug/inspect_vector_store", tags=["Health"])
 async def debug_inspect_vector_store():
     """Temporary debug endpoint: try to load Chroma directly and return exception text.
