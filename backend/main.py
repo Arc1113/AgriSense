@@ -531,8 +531,9 @@ async def debug_try_init_rag():
         result["error"] = f"path check: {e}"
 
     try:
-        from rag_agent import get_rag_pipeline
+        from rag_agent import get_rag_pipeline, _rag_init_info
         pipeline = get_rag_pipeline()
+        result["init_info"] = _rag_init_info
         if pipeline:
             result["pipeline_init"] = "success"
             result["stats"] = pipeline.get_stats() if hasattr(pipeline, 'get_stats') else {}
