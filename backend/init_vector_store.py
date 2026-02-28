@@ -38,23 +38,22 @@ logger = logging.getLogger("VectorStoreInit")
 def convert_text_to_markdown():
     """Convert cleaned text files to Markdown knowledge base format."""
     try:
-        sys.path.insert(0, str(Path(__file__).parent / "Web_Scraping_for_Agrisense" / "rag_pipeline"))
-        from convert_to_markdown import convert_all
-        
         input_dir = Path(__file__).parent / "Web_Scraping_for_Agrisense" / "rag_pipeline" / "processed" / "cleaned_text"
         output_dir = Path(__file__).parent / "Web_Scraping_for_Agrisense" / "rag_pipeline" / "processed" / "markdown_kb"
-        
-        if not input_dir.exists():
-            logger.error(f"❌ Cleaned text directory not found: {input_dir}")
-            return False
         
         # Skip if markdown files already exist
         if output_dir.exists() and list(output_dir.glob('*.md')):
             md_count = len(list(output_dir.glob('*.md')))
             logger.info(f"✅ Markdown KB already exists ({md_count} files)")
             return True
+            
+        if not input_dir.exists():
+            logger.error(f"❌ Cleaned text directory not found: {input_dir}")
+            return False
         
         logger.info("📝 Converting cleaned text → Markdown knowledge base...")
+        sys.path.insert(0, str(Path(__file__).parent / "Web_Scraping_for_Agrisense" / "rag_pipeline"))
+        from convert_to_markdown import convert_all
         convert_all(str(input_dir), str(output_dir))
         return True
         
