@@ -117,7 +117,7 @@ def _init_rag_sync():
         logger.info("🔍 Initializing Industry-Standard Markdown RAG Pipeline...")
         _rag_init_info["stage"] = "creating_pipeline"
         pipeline = MarkdownRAGPipeline(
-            persist_directory="./vector_store",
+            persist_directory="./vector-store",
             collection_name="agrisense_v2",
             chunk_size=800,
             chunk_overlap=150,
@@ -152,7 +152,7 @@ def _init_rag_sync():
                     logger.warning("⚠️ Vector store loaded but contains 0 chunks — rebuilding to local path")
                     _rag_init_info["stage"] = "build_force_rebuild_local"
                     # Create a NEW pipeline with a container-local writable path
-                    # (the mounted ./vector_store may be read-only or broken on Azure Files)
+                    # (the mounted ./vector-store may be read-only or broken on Azure Files)
                     pipeline = MarkdownRAGPipeline(
                         persist_directory="/tmp/vector_store_local",
                         collection_name="agrisense_v2",

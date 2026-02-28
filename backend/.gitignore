@@ -30,6 +30,7 @@ ENV/
 
 # ChromaDB Vector Store
 vector_store/
+vector-store/
 *.sqlite3
 *.parquet
 

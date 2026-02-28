@@ -105,7 +105,7 @@ def main():
     json_fallback = Path(__file__).parent / "Web_Scraping_for_Agrisense" / "rag_pipeline" / "processed" / "rag_json" / "rag_documents.json"
     
     pipeline = MarkdownRAGPipeline(
-        persist_directory="./vector_store",
+        persist_directory="./vector-store",
         collection_name="agrisense_v2",
         chunk_size=800,
         chunk_overlap=150,
