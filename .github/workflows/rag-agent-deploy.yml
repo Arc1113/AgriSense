@@ -10,6 +10,7 @@ on:
       - 'backend/main.py'
       - 'backend/rag_agent.py'
       - 'backend/markdown_rag_pipeline.py'
+      - 'backend/init_vector_store.py'
       - 'backend/vector_store_manager.py'
       - 'backend/weather_service.py'
       - 'backend/app/**'
