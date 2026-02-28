@@ -452,6 +452,56 @@ async def health_check():
     )
 
 
+@app.get("/debug/rag_stats", tags=["Health"])
+async def debug_rag_stats():
+    """Temporary debug endpoint: return RAG pipeline and vector-store status.
+
+    Intended for troubleshooting only. Returns pipeline `is_ready`, stats from
+    `get_rag_pipeline().get_stats()` and a listing of files under `/app/vector_store`.
+    """
+    try:
+        from rag_agent import get_rag_pipeline
+
+        pipeline = get_rag_pipeline()
+        if not pipeline:
+            return JSONResponse(status_code=200, content={
+                "pipeline": None,
+                "message": "RAG pipeline not initialized or no KB found"
+            })
+
+        stats = {}
+        try:
+            stats = pipeline.get_stats() if hasattr(pipeline, 'get_stats') else {}
+        except Exception as e:
+            stats = {"error_getting_stats": str(e)}
+
+        # Attempt to list files in the mounted vector_store path
+        import os
+        vector_files = []
+        try:
+            mount_path = "/app/vector_store"
+            if os.path.exists(mount_path) and os.path.isdir(mount_path):
+                for root, dirs, files in os.walk(mount_path):
+                    for f in files:
+                        # provide relative paths to avoid leaking absolute host info
+                        rel = os.path.relpath(os.path.join(root, f), mount_path)
+                        vector_files.append(rel)
+            else:
+                vector_files = None
+        except Exception as e:
+            vector_files = {"error_listing": str(e)}
+
+        return JSONResponse(status_code=200, content={
+            "pipeline": True,
+            "is_ready": getattr(pipeline, 'is_ready', None),
+            "stats": stats,
+            "vector_store_files": vector_files,
+        })
+
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+
 @app.get("/classes", tags=["Info"])
 async def get_classes():
     """
