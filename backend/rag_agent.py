@@ -131,6 +131,17 @@ def get_rag_pipeline() -> Optional[MarkdownRAGPipeline]:
         if md_path.exists() and list(md_path.glob('*.md')):
             logger.info("📚 Using Markdown knowledge base (Industry Standard)")
             success = _rag_pipeline.build(md_kb_path, force_rebuild=False)
+            
+            # Self-heal: if existing store loaded but is empty (e.g. broken
+            # Azure Files mount missing GUID subfolder, or collection name
+            # mismatch due to embedding-provider switch), force a rebuild
+            # from the Markdown KB so vectors match the runtime provider.
+            if success:
+                stats = _rag_pipeline.get_stats()
+                chunk_count = stats.get('document_count', 0)
+                if chunk_count == 0:
+                    logger.warning("⚠️ Vector store loaded but contains 0 chunks — forcing rebuild")
+                    success = _rag_pipeline.build(md_kb_path, force_rebuild=True)
         elif Path(json_fallback).exists():
             logger.info("📦 Markdown KB not found, using legacy JSON (run convert_to_markdown.py to upgrade)")
             success = _rag_pipeline.build_from_json_legacy(json_fallback, force_rebuild=False)
